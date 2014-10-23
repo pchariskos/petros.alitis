@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Alitis</string>
+    <string name="tab_title_UnitList">Lista</string>
+    <string name="tab_title_karta">Karta</string>
+    <string name="tab_title_caseList">Uppdrag</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

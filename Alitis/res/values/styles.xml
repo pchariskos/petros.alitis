@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/TabTextStyle</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
+    </style>
+
+    <!-- 
+    General styles for the action bar. Here, drawables can be included as well. For example:
+    <item name="android:background">@drawable/actionbar_background</item>
+    <item name="android:backgroundStacked">@drawable/actionbar_background</item>
+    <item name="android:backgroundSplit">@drawable/actionbar_background</item>
+    -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
+
+        <!--
+        Support library compatibility. Here, drawables can be included as well. For example:
+    	<item name="background">@drawable/actionbar_background</item>
+        <item name="backgroundStacked">@drawable/actionbar_background</item>
+        <item name="backgroundSplit">@drawable/actionbar_background</item>
+        -->
+        <item name="titleTextStyle">@style/TitleTextStyle</item>
+    </style>
+
+    <!-- action bar title text -->
+    <style name="TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionbar_titleTextColor</item>
+    </style>
+
+    <!-- action bar tab text -->
+    <style name="TabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@color/actionbar_tabTextColor</item>
+    </style>
+
+</resources>
