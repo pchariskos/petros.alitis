@@ -91,7 +91,8 @@ public class MainPagerActivity extends ActionBarActivity implements ActionBar.Ta
             // this tab is selected.
             actionBar.addTab(
                     actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+                    .setIcon(R.drawable.ic_action_lista)
+                            //.setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
     }
@@ -139,10 +140,14 @@ public class MainPagerActivity extends ActionBarActivity implements ActionBar.Ta
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        
+        
+        tab.setIcon(R.drawable.ic_action_lista_b);
     }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    	tab.setIcon(R.drawable.ic_action_lista);
     }
 
     @Override

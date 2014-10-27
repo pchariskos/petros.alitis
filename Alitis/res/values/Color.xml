@@ -3,6 +3,7 @@
     <color name="actionbar_background">#512da8</color>
     <color name="actionbar_tabText">#ffffff</color>
     <color name="actionbar_titleText">#ffffff</color>
-    <color name="actionbar_barTab">#eeeeee</color>
+    <color name="test">#ff5722</color>
+    
     
 </resources>

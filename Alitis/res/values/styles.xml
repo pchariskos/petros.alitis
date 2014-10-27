@@ -2,53 +2,108 @@
 <resources>
 
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-        <item name="android:actionBarTabTextStyle">@style/TabTextStyle</item>
+    <style name="MyCustomTheme" parent="@style/Theme.AppCompat.Light">
+        
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.MyCustomTheme</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.MyCustomTheme</item>
+        <!-- <item name="android:actionBarTabTextStyle">@style/TabTextStyle.MyCustomTheme</item>  -->
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
+        
+        <item name="android:popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
+        
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.MyCustomTheme</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.MyCustomTheme</item>
+        
+        <item name="android:actionModeBackground">@drawable/cab_background_top_mycustomtheme</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_mycustomtheme</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.MyCustomTheme</item>
         
 
         <!-- Support library compatibility -->
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
+        
+        <item name="actionBarStyle">@style/ActionBar.Solid.MyCustomTheme</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.MyCustomTheme</item>
+        <!--  <item name="actionBarTabTextStyle">@style/TabTextStyle.MyCustomTheme</item>  -->
+        <item name="actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
+        
+        <item name="popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
+        
+        <item name="dropDownListViewStyle">@style/DropDownListView.MyCustomTheme</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.MyCustomTheme</item>
+        
+        <item name="actionModeBackground">@drawable/cab_background_top_mycustomtheme</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_mycustomtheme</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.MyCustomTheme</item>
     </style>
     
     
-    
-    
-
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
-
-        <!--  General styles for the action bar -->
-        <item name="android:background">@color/actionbar_background</item>
-        <item name="android:backgroundStacked">@color/actionbar_background</item>
-        <item name="android:backgroundSplit">@color/actionbar_background</item>
-
-        <!--  Support library compatibility  -->
-        <item name="background">@color/actionbar_background</item>
-        <item name="backgroundStacked">@color/actionbar_background</item>
-        <item name="backgroundSplit">@color/actionbar_background</item>
-        <item name="titleTextStyle">@style/TitleTextStyle</item>
+    <style name="ActionBar.Solid.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText.MyCustomTheme</item>
+        <item name="android:background">@drawable/ab_solid_mycustomtheme</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_mycustomtheme</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_mycustomtheme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.MyCustomTheme</item>
+        
+        <!-- Support library compatibility -->
+        <item name="titleTextStyle">@style/MyActionBarTitleText.MyCustomTheme</item>
+        <item name="background">@drawable/ab_solid_mycustomtheme</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_mycustomtheme</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_mycustomtheme</item>
+        <item name="progressBarStyle">@style/ProgressBar.MyCustomTheme</item>
     </style>
     
     
+    <style name="ActionBar.Transparent.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionBar">
+        
+        <item name="android:background">@drawable/ab_transparent_mycustomtheme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.MyCustomTheme</item>
+        
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/ab_transparent_mycustomtheme</item>
+        <item name="progressBarStyle">@style/ProgressBar.MyCustomTheme</item>
+    </style>
     
+    
+    <style name="PopupMenu.MyCustomTheme" parent="@style/Widget.AppCompat.Light.PopupMenu">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_mycustomtheme</item>	
+    </style>
+    
+    
+    <style name="DropDownListView.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_mycustomtheme</item>
+    </style>
+
+    <style name="ActionBarTabStyle.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_mycustomtheme</item>
+    </style>
+	
+    <style name="DropDownNav.MyCustomTheme" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_mycustomtheme</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_mycustomtheme</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_mycustomtheme</item>
+    </style>
+    
+    <style name="ProgressBar.MyCustomTheme" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_mycustomtheme</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_mycustomtheme</item>
+    </style>
     
 
-    <!-- action bar title text -->
-    <style name="TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText.MyCustomTheme"
+           parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/actionbar_titleText</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
-    <!-- action bar tab text -->
-    <style name="TabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">@color/actionbar_tabText</item>
-    </style>
-    
-    
-    
-    
-    
 
+    <!-- action bar tab text 
+    <style name="TabTextStyle.MyCustomTheme" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@drawable/tab_icon</item>
+    </style> -->
 
 </resources>
