@@ -2,6 +2,8 @@ package petros.alitis;
 
 import java.util.Locale;
 
+import petros.units.UnitListFragment;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,25 +21,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class MainPagerActivity extends ActionBarActivity implements ActionBar.TabListener {
+	
+	// Debugging tag for the application
+    private static final String HOMEACTIVITY_TAG = "HomeActivity";
 
     /**
-	 * The   {@link android.support.v4.view.PagerAdapter}   that will provide fragments for each 
-	 * of the sections. We use a  {@link FragmentPagerAdapter}   derivative, which will keep every
+	 * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each 
+	 * of the sections. We use a  {@link FragmentPagerAdapter} derivative, which will keep every
 	 * loaded fragment in memory. If this becomes too memory intensive, it may be best to switch 
 	 * to a  {@link android.support.v13.app.FragmentStatePagerAdapter} .
 	 */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
-	 * The   {@link ViewPager}   that will host the section contents.
+	 * The {@link ViewPager} that will host the section contents. A {@link ViewPager} is a
+	 * fragment container which requires a PagerAdapter.
 	 */
     ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        
+        Log.d(HOMEACTIVITY_TAG, getString(R.string.onCreate));
+		logDeviceScreenMetris();
+		
+		setContentView(R.layout.activity_main);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -49,14 +61,26 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
+        // Listen for changes in the page currently being displayed by ViewPager.
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        	
+        	// Control whether the page animation is being actively dragged,
+        	// settling to a steady state, or idling.
+        	public void onPageScrollStateChanged(int state) {
+        		
+        	}
+        	
+        	// Control exactly where your page is going to be.
+        	public void onPageScrolled(int position, float posOffset, int posOffsetPixels) {
+        		
+        	}
+        	
+        	// Control the selected page.
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
             }
+            
         });
 
         // For each of the sections in the app, add a tab to the action bar.
@@ -85,12 +109,30 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    	
+		switch (item.getItemId()) {
+		case R.id.action_search:
+			Log.d(HOMEACTIVITY_TAG, "[onOptionsItemSelected]:  Search Pressed");
+			return true; 
+		case R.id.action_refresh:
+			Log.d(HOMEACTIVITY_TAG, "[onOptionsItemSelected]:  Refresh Pressed");
+			return true;
+		case R.id.action_settings:
+			return true;
+			
+		}
+        
         return super.onOptionsItemSelected(item);
     }
+    
+	public void logDeviceScreenMetris() {
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		Log.d(HOMEACTIVITY_TAG, "density(dpi):" + Integer.toString(dm.densityDpi));
+		Log.d(HOMEACTIVITY_TAG, "density:" + Float.toString(dm.density));
+		Log.d(HOMEACTIVITY_TAG, "heightpixels:" + Integer.toString(dm.heightPixels));
+		Log.d(HOMEACTIVITY_TAG, "widthpixels:" + Integer.toString(dm.widthPixels));
+	}
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -109,8 +151,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
+     * A {@link FragmentPagerAdapter} is an agent that returns a fragment corresponding to
+     * one of the sections/tabs/pages and adds them to the activity. It helps the Viewpager to
+     * identify the fragments' views so that they can be placed correctly.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -120,9 +163,22 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public Fragment getItem(int position) {
+        	
+        	switch (position) {
+            case 0:
+            	return UnitListFragment.newInstance(position + 1);
+            case 1:
+            	return PlaceholderFragment.newInstance(position + 1);
+            case 2:
+            	return PlaceholderFragment.newInstance(position + 1);
+            }
+
+        	return null;
+        	
+        	
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            //return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override

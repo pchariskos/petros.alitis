@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+     This XML Layout is used to present the appropriate Vehicle List View, in case:
+	i. There are data to present
+	ii. The list is empty
+
+	The layout below is made of three parts:
+
+	a. A ListView identified by @android:id/list.
+	b. An empty view identified by @android:id/empty.
+	c. Some controls at the Top of the screen.
+	
+	The ViewStub lets you inflate a view hierarchy only when needed. The layout @layout/empty
+	will be inflated only when the ViewStub visibility will change to View.VISIBLE. 
+	Once the @layout/empty view hierarchy is inflated, it replaces the ViewStub in the global layout.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+ <!--       <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onSetEmpty"
+            android:text="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onSetData"
+            android:text="2" /> -->
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ViewStub
+            android:id="@android:id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout="@layout/fragment_empty" />
+    </FrameLayout>
+
+</LinearLayout>

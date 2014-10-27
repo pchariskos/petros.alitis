@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This XML Layout is used to create custom list items in the "StatusLista"
+fragment. Works only if combined with a subclass of "ArrayAdapter<T> that knows
+how to create, populate, and return the view defined in the new layout.  
+
+android:descendantFocusability="blocksDescendants", blocks the child views
+of being focusable in order for the layout to receive input events. -->
+
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/single_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+    <ImageButton
+        android:id="@+id/imageButton_OVerflow"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:minHeight="55dp"
+        
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_myoverflow"
+        android:contentDescription="Extra choices for the vehicle"
+         />
+    
+    <ImageButton
+        android:id="@+id/imageButton_findLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imageButton_OVerflow"
+        android:minHeight="55dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_marginRight="24dp"
+        
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_locate"
+        android:contentDescription="Locate unit"
+        
+        />
+    
+    <TextView
+        android:id="@+id/vehicle_list_item_titlteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        
+        android:layout_toRightOf="@+id/imageView_statusIndicator"
+        android:layout_marginTop="8dp"
+        
+        android:textSize="19sp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Vehicle title" />
+    
+    <TextView
+        android:id="@+id/vehicle_list_item_statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_toRightOf="@+id/imageView_statusIndicator"
+        android:layout_below="@+id/vehicle_list_item_titlteTextView"
+        
+        android:textSize="13sp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Vehicle status"
+        android:textColor="#757575" />
+    
+    <ImageView
+        android:id="@+id/imageView_statusIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        
+        android:contentDescription="The status indicator" />
+    
+    <!--For testing purposes
+    android:background="#0846f7"
+    android:background="#f708bd"
+    android:background="#bdf708"
+    #46f708
+    #04dc1c
+    #99CC00
+      -->
+
+</RelativeLayout>

@@ -5,6 +5,32 @@
     <string name="tab_title_UnitList">Lista</string>
     <string name="tab_title_karta">Karta</string>
     <string name="tab_title_caseList">Uppdrag</string>
+    
+    <!-- AlarmedUnits Status -->
+    <string name="unit_ledig">Ledig</string>
+    <string name="unit_i_uppdrag">I Uppdrag</string>
+    <string name="unit_trasig">Trasig</string>
+    
+    <!-- Spinner Items -->
+    <string name="spinner_title">Status</string>
+    <string name="s_unit_all">All</string>
+    <string name="s_unit_i_uppdrag">I uppdrag</string>
+    <string name="s_unit_lediga">Lediga</string>
+    <string name="s_unit_trasiga">Trasiga</string>
+    
+    <!-- Action Bar -->
+    <string name="action_search">Search</string>
+    <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- LifeCycle Messages -->
+    <string name="onAttach">[OnAttach]:</string>
+    <string name="onCreate">[OnCreate]:</string>
+    <string name="onCreateView">[OnCreateView]:</string>
+    <string name="onStart">[OnStart]:</string>
+    <string name="onResume">[OnResume]:</string>
+    <string name="onPause">[OnPause]:</string>
+    <string name="onStop">[OnStop]:</string>
+    <string name="onDestroy">[OnDestroy]:</string>
 
 </resources>

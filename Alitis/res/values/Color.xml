@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="actionbar_tabTextColor">#757575</color>
-    <color name="actionbar_titleTextColor">#000000</color>
+    <color name="actionbar_background">#512da8</color>
+    <color name="actionbar_tabText">#ffffff</color>
+    <color name="actionbar_titleText">#ffffff</color>
+    <color name="actionbar_barTab">#eeeeee</color>
+    
 </resources>
