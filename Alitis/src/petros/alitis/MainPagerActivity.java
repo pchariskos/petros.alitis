@@ -91,8 +91,7 @@ public class MainPagerActivity extends ActionBarActivity implements ActionBar.Ta
             // this tab is selected.
             actionBar.addTab(
                     actionBar.newTab()
-                    .setIcon(R.drawable.ic_action_lista)
-                            //.setText(mSectionsPagerAdapter.getPageTitle(i))
+                            .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
     }
@@ -125,6 +124,21 @@ public class MainPagerActivity extends ActionBarActivity implements ActionBar.Ta
         
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        // When the given tab is selected, switch to the corresponding page in
+        // the ViewPager.
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
     
 	public void logDeviceScreenMetris() {
 		DisplayMetrics dm = new DisplayMetrics();
@@ -134,25 +148,6 @@ public class MainPagerActivity extends ActionBarActivity implements ActionBar.Ta
 		Log.d(HOMEACTIVITY_TAG, "heightpixels:" + Integer.toString(dm.heightPixels));
 		Log.d(HOMEACTIVITY_TAG, "widthpixels:" + Integer.toString(dm.widthPixels));
 	}
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
-        
-        
-        tab.setIcon(R.drawable.ic_action_lista_b);
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    	tab.setIcon(R.drawable.ic_action_lista);
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
     
 
     /**

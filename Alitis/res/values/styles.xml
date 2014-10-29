@@ -6,7 +6,7 @@
         
         <item name="android:actionBarStyle">@style/ActionBar.Solid.MyCustomTheme</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.MyCustomTheme</item>
-        <!-- <item name="android:actionBarTabTextStyle">@style/TabTextStyle.MyCustomTheme</item>  -->
+        <item name="android:actionBarTabTextStyle">@style/ActionBarTabTextStyle.MyCustomTheme</item>
         <item name="android:actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
         
         <item name="android:popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
@@ -23,7 +23,7 @@
         
         <item name="actionBarStyle">@style/ActionBar.Solid.MyCustomTheme</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.MyCustomTheme</item>
-        <!--  <item name="actionBarTabTextStyle">@style/TabTextStyle.MyCustomTheme</item>  -->
+        <item name="actionBarTabTextStyle">@style/ActionBarTabTextStyle.MyCustomTheme</item>
         <item name="actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
         
         <item name="popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
@@ -73,10 +73,6 @@
     <style name="DropDownListView.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_mycustomtheme</item>
     </style>
-
-    <style name="ActionBarTabStyle.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_mycustomtheme</item>
-    </style>
 	
     <style name="DropDownNav.MyCustomTheme" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_mycustomtheme</item>
@@ -91,6 +87,11 @@
     <style name="ActionButton.CloseMode.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_mycustomtheme</item>
     </style>
+
+    <style name="ActionBarTabStyle.MyCustomTheme" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_mycustomtheme</item>
+        <!-- <item name="android:textColor">@drawable/tab_text_color</item>  -->
+    </style>
     
 
     <!-- ActionBar title text -->
@@ -101,9 +102,11 @@
     </style>
 
 
-    <!-- action bar tab text 
-    <style name="TabTextStyle.MyCustomTheme" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">@drawable/tab_icon</item>
-    </style> -->
+    <!-- ActionBar tab text -->
+    <style name="ActionBarTabTextStyle.MyCustomTheme" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textSize">14sp</item>
+        
+        <item name="android:textColor">@drawable/tab_text_color</item>
+    </style> 
 
 </resources>

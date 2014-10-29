@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="Theme.MyCustomTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.MyCustomTheme</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.MyCustomTheme</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.MyCustomTheme</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.MyCustomTheme</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_mycustomtheme</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_mycustomtheme</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.MyCustomTheme</item>
+    </style>
+
+    <style name="ActionBar.Solid.Mycustomtheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_mycustomtheme</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_mycustomtheme</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_mycustomtheme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.MyCustomTheme</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Mycustomtheme" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_mycustomtheme</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.MyCustomTheme</item>
+    </style>
+
+</resources>

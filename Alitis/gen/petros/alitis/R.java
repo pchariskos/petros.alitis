@@ -1174,13 +1174,12 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f090002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f07001e;
+        public static final int abc_search_url_text_holo=0x7f07001c;
         public static final int abc_search_url_text_normal=0x7f070017;
         public static final int abc_search_url_text_pressed=0x7f070019;
         public static final int abc_search_url_text_selected=0x7f070018;
         public static final int actionbar_background=0x7f07001a;
-        public static final int actionbar_tabText=0x7f07001b;
-        public static final int actionbar_titleText=0x7f07001c;
+        public static final int actionbar_titleText=0x7f07001b;
         public static final int common_action_bar_splitter=0x7f070009;
         /**  Sign-in Button Colors 
          */
@@ -1193,9 +1192,8 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f070006;
         public static final int common_signin_btn_light_text_focused=0x7f070007;
         public static final int common_signin_btn_light_text_pressed=0x7f070005;
-        public static final int common_signin_btn_text_dark=0x7f07001f;
-        public static final int common_signin_btn_text_light=0x7f070020;
-        public static final int test=0x7f07001d;
+        public static final int common_signin_btn_text_dark=0x7f07001d;
+        public static final int common_signin_btn_text_light=0x7f07001e;
         public static final int wallet_bright_foreground_disabled_holo_light=0x7f07000f;
         /** 
          Wallet colors to support consistent Wallet fragment holo dark UI in client application
@@ -1214,8 +1212,8 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f070011;
         public static final int wallet_holo_blue_light=0x7f070015;
         public static final int wallet_link_text_light=0x7f070016;
-        public static final int wallet_primary_text_holo_light=0x7f070021;
-        public static final int wallet_secondary_text_holo_dark=0x7f070022;
+        public static final int wallet_primary_text_holo_light=0x7f07001f;
+        public static final int wallet_secondary_text_holo_dark=0x7f070020;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1470,54 +1468,52 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f02007b;
         public static final int common_signin_btn_text_pressed_light=0x7f02007c;
         public static final int drawer_shadow=0x7f02007d;
-        public static final int ic_action_lista=0x7f02007e;
-        public static final int ic_action_lista_b=0x7f02007f;
-        public static final int ic_action_locate=0x7f020080;
-        public static final int ic_action_myoverflow=0x7f020081;
-        public static final int ic_action_refresh=0x7f020082;
-        public static final int ic_action_search=0x7f020083;
-        public static final int ic_action_view_as_list=0x7f020084;
-        public static final int ic_all_default=0x7f020085;
-        public static final int ic_all_pressed=0x7f020086;
-        public static final int ic_drawer=0x7f020087;
-        public static final int ic_emergency_default=0x7f020088;
-        public static final int ic_emergency_pressed=0x7f020089;
-        public static final int ic_empty_unit=0x7f02008a;
-        public static final int ic_launcher=0x7f02008b;
-        public static final int ic_location_default=0x7f02008c;
-        public static final int ic_location_pressed=0x7f02008d;
-        public static final int ic_plusone_medium_off_client=0x7f02008e;
-        public static final int ic_plusone_small_off_client=0x7f02008f;
-        public static final int ic_plusone_standard_off_client=0x7f020090;
-        public static final int ic_plusone_tall_off_client=0x7f020091;
-        public static final int ic_satelliteview_default=0x7f020092;
-        public static final int ic_satelliteview_pressed=0x7f020093;
-        public static final int ic_status_ledig=0x7f020094;
-        public static final int ic_status_trasig=0x7f020095;
-        public static final int ic_status_uppdrag=0x7f020096;
-        public static final int list_focused_mycustomtheme=0x7f020097;
-        public static final int list_pressed_mycustomtheme=0x7f020098;
-        public static final int menu_dropdown_panel_mycustomtheme=0x7f020099;
-        public static final int powered_by_google_dark=0x7f02009a;
-        public static final int powered_by_google_light=0x7f02009b;
-        public static final int progress_bg_mycustomtheme=0x7f02009c;
-        public static final int progress_horizontal_mycustomtheme=0x7f02009d;
-        public static final int progress_primary_mycustomtheme=0x7f02009e;
-        public static final int progress_secondary_mycustomtheme=0x7f02009f;
-        public static final int selectable_background_mycustomtheme=0x7f0200a0;
-        public static final int spinner_ab_default_mycustomtheme=0x7f0200a1;
-        public static final int spinner_ab_disabled_mycustomtheme=0x7f0200a2;
-        public static final int spinner_ab_focused_mycustomtheme=0x7f0200a3;
-        public static final int spinner_ab_pressed_mycustomtheme=0x7f0200a4;
-        public static final int spinner_background_ab_mycustomtheme=0x7f0200a5;
-        public static final int tab_icon=0x7f0200a6;
-        public static final int tab_indicator_ab_mycustomtheme=0x7f0200a7;
-        public static final int tab_selected_focused_mycustomtheme=0x7f0200a8;
-        public static final int tab_selected_mycustomtheme=0x7f0200a9;
-        public static final int tab_selected_pressed_mycustomtheme=0x7f0200aa;
-        public static final int tab_unselected_focused_mycustomtheme=0x7f0200ab;
-        public static final int tab_unselected_mycustomtheme=0x7f0200ac;
-        public static final int tab_unselected_pressed_mycustomtheme=0x7f0200ad;
+        public static final int ic_action_locate=0x7f02007e;
+        public static final int ic_action_myoverflow=0x7f02007f;
+        public static final int ic_action_refresh=0x7f020080;
+        public static final int ic_action_search=0x7f020081;
+        public static final int ic_action_view_as_list=0x7f020082;
+        public static final int ic_all_default=0x7f020083;
+        public static final int ic_all_pressed=0x7f020084;
+        public static final int ic_drawer=0x7f020085;
+        public static final int ic_emergency_default=0x7f020086;
+        public static final int ic_emergency_pressed=0x7f020087;
+        public static final int ic_empty_unit=0x7f020088;
+        public static final int ic_launcher=0x7f020089;
+        public static final int ic_location_default=0x7f02008a;
+        public static final int ic_location_pressed=0x7f02008b;
+        public static final int ic_plusone_medium_off_client=0x7f02008c;
+        public static final int ic_plusone_small_off_client=0x7f02008d;
+        public static final int ic_plusone_standard_off_client=0x7f02008e;
+        public static final int ic_plusone_tall_off_client=0x7f02008f;
+        public static final int ic_satelliteview_default=0x7f020090;
+        public static final int ic_satelliteview_pressed=0x7f020091;
+        public static final int ic_status_ledig=0x7f020092;
+        public static final int ic_status_trasig=0x7f020093;
+        public static final int ic_status_uppdrag=0x7f020094;
+        public static final int list_focused_mycustomtheme=0x7f020095;
+        public static final int list_pressed_mycustomtheme=0x7f020096;
+        public static final int menu_dropdown_panel_mycustomtheme=0x7f020097;
+        public static final int powered_by_google_dark=0x7f020098;
+        public static final int powered_by_google_light=0x7f020099;
+        public static final int progress_bg_mycustomtheme=0x7f02009a;
+        public static final int progress_horizontal_mycustomtheme=0x7f02009b;
+        public static final int progress_primary_mycustomtheme=0x7f02009c;
+        public static final int progress_secondary_mycustomtheme=0x7f02009d;
+        public static final int selectable_background_mycustomtheme=0x7f02009e;
+        public static final int spinner_ab_default_mycustomtheme=0x7f02009f;
+        public static final int spinner_ab_disabled_mycustomtheme=0x7f0200a0;
+        public static final int spinner_ab_focused_mycustomtheme=0x7f0200a1;
+        public static final int spinner_ab_pressed_mycustomtheme=0x7f0200a2;
+        public static final int spinner_background_ab_mycustomtheme=0x7f0200a3;
+        public static final int tab_indicator_ab_mycustomtheme=0x7f0200a4;
+        public static final int tab_selected_focused_mycustomtheme=0x7f0200a5;
+        public static final int tab_selected_mycustomtheme=0x7f0200a6;
+        public static final int tab_selected_pressed_mycustomtheme=0x7f0200a7;
+        public static final int tab_text_color=0x7f0200a8;
+        public static final int tab_unselected_focused_mycustomtheme=0x7f0200a9;
+        public static final int tab_unselected_mycustomtheme=0x7f0200aa;
+        public static final int tab_unselected_pressed_mycustomtheme=0x7f0200ab;
     }
     public static final class id {
         public static final int action_bar=0x7f0b002e;
@@ -1863,6 +1859,8 @@ containing a value of this type.
         public static final int ActionBar_Solid_Mycustomtheme=0x7f05009d;
         public static final int ActionBar_Transparent_MyCustomTheme=0x7f050092;
         public static final int ActionBar_Transparent_Mycustomtheme=0x7f05009e;
+        /**  <item name="android:textColor">@drawable/tab_text_color</item>  
+         */
         public static final int ActionBarTabStyle_MyCustomTheme=0x7f050095;
         public static final int ActionButton_CloseMode_MyCustomTheme=0x7f050098;
         /** 
@@ -1884,6 +1882,7 @@ containing a value of this type.
         public static final int PopupMenu_MyCustomTheme=0x7f050093;
         public static final int ProgressBar_MyCustomTheme=0x7f050097;
         /**  action bar tab text 
+ <item name="android:textColor">@color/actionbar_tab_text</item> 
          */
         public static final int TabTextStyle_MyCustomTheme=0x7f05009a;
         /**  Mimic text appearance in select_dialog_item.xml 
