@@ -9,9 +9,11 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 public class MainPagerActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -123,6 +126,17 @@ public class MainPagerActivity extends ActionBarActivity implements ActionBar.Ta
 		}
         
         return super.onOptionsItemSelected(item);
+    }
+    
+    // Change the default search icon for the search action view in the action bar.
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(searchViewMenuItem);
+        int searchImgId = android.support.v7.appcompat.R.id.search_button; // The explicit layout ID of searchview's ImageView
+        ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+        v.setImageResource(R.drawable.ic_action_search);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

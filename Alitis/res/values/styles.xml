@@ -9,6 +9,8 @@
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabTextStyle.MyCustomTheme</item>
         <item name="android:actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
         
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+        
         <item name="android:popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
         
         <item name="android:dropDownListViewStyle">@style/DropDownListView.MyCustomTheme</item>
@@ -25,6 +27,8 @@
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.MyCustomTheme</item>
         <item name="actionBarTabTextStyle">@style/ActionBarTabTextStyle.MyCustomTheme</item>
         <item name="actionBarItemBackground">@drawable/selectable_background_mycustomtheme</item>
+        
+        <item name="actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
         
         <item name="popupMenuStyle">@style/PopupMenu.MyCustomTheme</item>
         
@@ -108,5 +112,10 @@
         
         <item name="android:textColor">@drawable/tab_text_color</item>
     </style> 
+    
+    <!-- ActionBar settnigs overflow icon -->
+    <style name="MyActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+    <item name="android:src">@drawable/ic_action_overflow</item>
+</style>
 
 </resources>

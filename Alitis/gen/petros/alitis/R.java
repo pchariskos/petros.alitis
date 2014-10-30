@@ -1467,9 +1467,9 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f02007a;
         public static final int common_signin_btn_text_pressed_dark=0x7f02007b;
         public static final int common_signin_btn_text_pressed_light=0x7f02007c;
-        public static final int drawer_shadow=0x7f02007d;
-        public static final int ic_action_locate=0x7f02007e;
-        public static final int ic_action_myoverflow=0x7f02007f;
+        public static final int ic_action_locate=0x7f02007d;
+        public static final int ic_action_myoverflow=0x7f02007e;
+        public static final int ic_action_overflow=0x7f02007f;
         public static final int ic_action_refresh=0x7f020080;
         public static final int ic_action_search=0x7f020081;
         public static final int ic_action_view_as_list=0x7f020082;
@@ -1856,35 +1856,37 @@ containing a value of this type.
     }
     public static final class style {
         public static final int ActionBar_Solid_MyCustomTheme=0x7f050091;
-        public static final int ActionBar_Solid_Mycustomtheme=0x7f05009d;
+        public static final int ActionBar_Solid_Mycustomtheme=0x7f05009e;
         public static final int ActionBar_Transparent_MyCustomTheme=0x7f050092;
-        public static final int ActionBar_Transparent_Mycustomtheme=0x7f05009e;
+        public static final int ActionBar_Transparent_Mycustomtheme=0x7f05009f;
         /**  <item name="android:textColor">@drawable/tab_text_color</item>  
          */
-        public static final int ActionBarTabStyle_MyCustomTheme=0x7f050095;
-        public static final int ActionButton_CloseMode_MyCustomTheme=0x7f050098;
+        public static final int ActionBarTabStyle_MyCustomTheme=0x7f050098;
+        /**  ActionBar tab text 
+         */
+        public static final int ActionBarTabTextStyle_MyCustomTheme=0x7f05009a;
+        public static final int ActionButton_CloseMode_MyCustomTheme=0x7f050097;
         /** 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
  API 11 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f05009b;
+        public static final int AppBaseTheme=0x7f05009c;
         public static final int DropDownListView_MyCustomTheme=0x7f050094;
-        public static final int DropDownNav_MyCustomTheme=0x7f050096;
+        public static final int DropDownNav_MyCustomTheme=0x7f050095;
         /**  ActionBar title text 
  The textColor property is backward compatible with the Support Library 
          */
         public static final int MyActionBarTitleText_MyCustomTheme=0x7f050099;
+        /**  ActionBar settnigs overflow icon 
+         */
+        public static final int MyActionButtonOverflow=0x7f05009b;
         /**  the theme applied to the application or activity 
          */
         public static final int MyCustomTheme=0x7f050090;
         public static final int PopupMenu_MyCustomTheme=0x7f050093;
-        public static final int ProgressBar_MyCustomTheme=0x7f050097;
-        /**  action bar tab text 
- <item name="android:textColor">@color/actionbar_tab_text</item> 
-         */
-        public static final int TabTextStyle_MyCustomTheme=0x7f05009a;
+        public static final int ProgressBar_MyCustomTheme=0x7f050096;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f050068;
@@ -1994,7 +1996,7 @@ containing a value of this type.
          */
         public static final int Theme_Base_Light=0x7f050084;
         public static final int Theme_IAPTheme=0x7f050000;
-        public static final int Theme_MyCustomTheme=0x7f05009c;
+        public static final int Theme_MyCustomTheme=0x7f05009d;
         public static final int WalletFragmentDefaultButtonTextAppearance=0x7f050003;
         public static final int WalletFragmentDefaultDetailsHeaderTextAppearance=0x7f050002;
         public static final int WalletFragmentDefaultDetailsTextAppearance=0x7f050001;
