@@ -1,10 +1,9 @@
 package petros.alitis;
 
 import java.util.Locale;
-
-import com.astuetz.PagerSlidingTabStrip;
-
 import petros.units.UnitListFragment;
+
+import com.astuetz.*;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
