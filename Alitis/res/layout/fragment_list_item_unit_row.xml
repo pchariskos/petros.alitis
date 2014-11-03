@@ -70,7 +70,7 @@ of being focusable in order for the layout to receive input events. -->
         android:textSize="13sp"
         android:fontFamily="sans-serif-condensed"
         android:text="Vehicle status"
-        android:textColor="#757575" />
+        android:textColor="@color/unit_text" />
     
     <ImageView
         android:id="@+id/imageView_statusIndicator"

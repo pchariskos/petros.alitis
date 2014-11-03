@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="actionbar_background">#5e35b1</color>
+    <color name="main_app_theme">#5e35b1</color>
     <color name="actionbar_titleText">#ffffff</color>
+    <color name="tabs_text">#424242</color>
+    <color name="unit_text">#757575</color>
     
     <!-- Other colors used in the app:
     1. BarTab's text color: #d1c4e9

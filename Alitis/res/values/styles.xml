@@ -110,10 +110,10 @@
     <style name="ActionBarTabTextStyle.MyCustomTheme" parent="@style/Widget.AppCompat.ActionBar.TabText">
         <item name="android:textSize">14sp</item>
         
-        <item name="android:textColor">@drawable/tab_text_color</item>
+        <!-- <item name="android:textColor">@drawable/tab_text_color</item> -->
     </style> 
     
-    <!-- ActionBar settnigs overflow icon -->
+    <!-- ActionBar settings overflow icon -->
     <style name="MyActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
     <item name="android:src">@drawable/ic_action_overflow</item>
 </style>
