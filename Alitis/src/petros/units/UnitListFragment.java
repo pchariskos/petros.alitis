@@ -34,7 +34,10 @@ import android.widget.Toast;
  * @author pchariskos
  *
  */
-public class UnitListFragment extends ListFragment {
+@SuppressWarnings("deprecation")
+public class UnitListFragment extends ListFragment 
+//implements ActionBar.OnNavigationListener 
+{
 	
 	private static final String LIST_FRAGMENT_TAG = "UnitListFragment";
 	
@@ -43,15 +46,42 @@ public class UnitListFragment extends ListFragment {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+    
+// // Title navigation Spinner data
+//    private ArrayList<SpinnerNavItem> navSpinner;
+//     
+//    // Navigation adapter
+//    private SpinnerAdapter mSpinnerAdapter;
 	
 	//The array list of units stored in UnitLab.
 	private ArrayList<Unit> mUnits;
+	
+	// the action bar
+	private ActionBar mActionBar;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//setHasOptionsMenu(true);
+//		// get the activity's action bar
+//		mActionBar = getActivity().getActionBar();
+//		
+//		// Hide the action bar title
+//		mActionBar.setDisplayShowTitleEnabled(false);
+// 
+//        // Enabling Spinner dropdown navigation
+//		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//         
+//        // Spinner title navigation data
+//        addSpinnerItems();
+//         
+//        // title drop down adapter
+//        mSpinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), navSpinner);
+// 
+//        // Set the callback for the drop-down list
+//        mActionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
+//		
+//		setHasOptionsMenu(true);
 		
 		//Get the VehicleLab singleton and then get the list of vehicles.
 		mUnits = UnitLab.get(getActivity()).getUnits();
@@ -75,25 +105,42 @@ public class UnitListFragment extends ListFragment {
 		((UnitAdapter)getListAdapter()).notifyDataSetChanged();
 	}
 	
-//	@Override
-//	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//		super.onCreateOptionsMenu(menu, inflater);
-//		inflater.inflate(R.menu.fragment_unit_list, menu);
+	/*
+	 * Fills the spinner with data.
+	 */
+//	private void addSpinnerItems() {
+//		navSpinner = new ArrayList<SpinnerNavItem>();
+//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_all));
+//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_i_uppdrag));
+//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_lediga));
+//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_trasiga));
 //	}
-//	
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		//inflater.inflate(R.menu.fragment_unit_list, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		case R.id.action_search:
+			Log.d(LIST_FRAGMENT_TAG, "[onOptionsItemSelected]:  Search Pressed");
+			return true; 
+		case R.id.action_refresh:
+			Log.d(LIST_FRAGMENT_TAG, "[onOptionsItemSelected]:  Refresh Pressed");
+			return true; 
+			
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 //	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		
-//		switch (item.getItemId()) {
-//		case R.id.action_search:
-//			Log.d(LIST_FRAGMENT_TAG, "[onOptionsItemSelected]:  Search Pressed");
-//			return true; 
-//		case R.id.action_refresh:
-//			Log.d(LIST_FRAGMENT_TAG, "[onOptionsItemSelected]:  Refresh Pressed");
-//			return true; 
-//			
-//		}
-//		return super.onOptionsItemSelected(item);
+//	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+//		// TODO Auto-generated method stub
+//		return false;
 //	}
 	
 	@Override
