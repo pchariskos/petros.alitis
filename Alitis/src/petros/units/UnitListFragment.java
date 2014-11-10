@@ -35,9 +35,7 @@ import android.widget.Toast;
  *
  */
 @SuppressWarnings("deprecation")
-public class UnitListFragment extends ListFragment 
-//implements ActionBar.OnNavigationListener 
-{
+public class UnitListFragment extends ListFragment implements ActionBar.OnNavigationListener {
 	
 	private static final String LIST_FRAGMENT_TAG = "UnitListFragment";
 	
@@ -47,11 +45,11 @@ public class UnitListFragment extends ListFragment
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     
-// // Title navigation Spinner data
-//    private ArrayList<SpinnerNavItem> navSpinner;
-//     
-//    // Navigation adapter
-//    private SpinnerAdapter mSpinnerAdapter;
+    // Title navigation Spinner data
+    private ArrayList<SpinnerNavItem> navSpinner;
+     
+    // Navigation adapter
+    private SpinnerAdapter mSpinnerAdapter;
 	
 	//The array list of units stored in UnitLab.
 	private ArrayList<Unit> mUnits;
@@ -63,25 +61,25 @@ public class UnitListFragment extends ListFragment
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-//		// get the activity's action bar
-//		mActionBar = getActivity().getActionBar();
-//		
-//		// Hide the action bar title
-//		mActionBar.setDisplayShowTitleEnabled(false);
-// 
-//        // Enabling Spinner dropdown navigation
-//		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//         
-//        // Spinner title navigation data
-//        addSpinnerItems();
-//         
-//        // title drop down adapter
-//        mSpinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), navSpinner);
-// 
-//        // Set the callback for the drop-down list
-//        mActionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
-//		
-//		setHasOptionsMenu(true);
+		// get the activity's action bar
+		mActionBar = getActivity().getActionBar();
+		
+		// Hide the action bar title
+		mActionBar.setDisplayShowTitleEnabled(false);
+ 
+        // Enabling Spinner dropdown navigation
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+         
+        // Spinner title navigation data
+        addSpinnerItems();
+         
+        // title drop down adapter
+        mSpinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), navSpinner);
+ 
+        // Set the callback for the drop-down list
+        mActionBar.setListNavigationCallbacks(mSpinnerAdapter, this);
+		
+		setHasOptionsMenu(true);
 		
 		//Get the VehicleLab singleton and then get the list of vehicles.
 		mUnits = UnitLab.get(getActivity()).getUnits();
@@ -108,13 +106,13 @@ public class UnitListFragment extends ListFragment
 	/*
 	 * Fills the spinner with data.
 	 */
-//	private void addSpinnerItems() {
-//		navSpinner = new ArrayList<SpinnerNavItem>();
-//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_all));
-//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_i_uppdrag));
-//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_lediga));
-//        navSpinner.add(new SpinnerNavItem(R.string.s_unit_trasiga));
-//	}
+	private void addSpinnerItems() {
+		navSpinner = new ArrayList<SpinnerNavItem>();
+        navSpinner.add(new SpinnerNavItem(R.string.s_unit_all));
+        navSpinner.add(new SpinnerNavItem(R.string.s_unit_i_uppdrag));
+        navSpinner.add(new SpinnerNavItem(R.string.s_unit_lediga));
+        navSpinner.add(new SpinnerNavItem(R.string.s_unit_trasiga));
+	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -137,11 +135,11 @@ public class UnitListFragment extends ListFragment
 		return super.onOptionsItemSelected(item);
 	}
 	
-//	@Override
-//	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	@Override
 	public void onListItemClick (ListView l, View v, int position, long id) {
