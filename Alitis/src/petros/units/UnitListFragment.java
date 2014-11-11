@@ -3,15 +3,14 @@ package petros.units;
 import java.util.ArrayList;
 
 import petros.alitis.R;
-import petros.alitis.MainPagerActivity.PlaceholderFragment;
 
 import SpinnerNavigation.SpinnerAdapter;
 import SpinnerNavigation.SpinnerNavItem;
-import android.app.ActionBar;
-import android.app.ActionBar.OnNavigationListener;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +33,6 @@ import android.widget.Toast;
  * @author pchariskos
  *
  */
-@SuppressWarnings("deprecation")
 public class UnitListFragment extends ListFragment implements ActionBar.OnNavigationListener {
 	
 	private static final String LIST_FRAGMENT_TAG = "UnitListFragment";
@@ -62,7 +60,7 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 		super.onCreate(savedInstanceState);
 		
 		// get the activity's action bar
-		mActionBar = getActivity().getActionBar();
+		mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 		
 		// Hide the action bar title
 		mActionBar.setDisplayShowTitleEnabled(false);

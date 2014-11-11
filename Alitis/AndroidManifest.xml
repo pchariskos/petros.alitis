@@ -15,6 +15,7 @@
         android:theme="@style/MyCustomTheme" >
         <activity
             android:name=".MainPagerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|locale|keyboard|fontScale|uiMode"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

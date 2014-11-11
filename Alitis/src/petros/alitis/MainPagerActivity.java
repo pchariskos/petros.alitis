@@ -7,6 +7,7 @@ import com.astuetz.*;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -20,7 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class MainPagerActivity extends ActionBarActivity {
@@ -47,12 +50,15 @@ public class MainPagerActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	
+//    	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
+        
+        setContentView(R.layout.activity_main);
         
         Log.d(HOMEACTIVITY_TAG, getString(R.string.onCreate));
 		logDeviceScreenMetris();
 		
-		setContentView(R.layout.activity_main);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -87,6 +93,49 @@ public class MainPagerActivity extends ActionBarActivity {
             
         });
     }
+    
+    /*
+     * Save data of app state when on pause or stop or on a rotation change.
+     * ( Restore data during onCreate() or onRestoreInstanceState() )
+     * (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onSaveInstanceState(android.os.Bundle)
+     */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		//outState.putInt("currentColor", currentColor);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		//currentColor = savedInstanceState.getInt("currentColor");
+		//changeColor(currentColor);
+	}
+	
+	/*
+	 * Images that should change between landscape and portrait, must be re-assign each resource to each element here.
+	 * 
+	 * During a configuration change a Configuration object can be used to read fields in the new
+	 * configuration and  make appropriate changes by updating the resources used in your interface.
+	 * At the time this method is called, the activity's Resources object is updated to return
+	 * resources based on the new configuration (e.g. reset any ImageViews with setImageResource()),
+	 * we can easily reset elements of the UI without the system restarting the activity.
+	 * 
+	 * (non-Javadoc)
+	 * @see android.support.v7.app.ActionBarActivity#onConfigurationChanged(android.content.res.Configuration)
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+
+	    // Checks the orientation of the screen
+	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+	    	Log.d(HOMEACTIVITY_TAG, "Orientation -> Landscape");
+	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+	    	Log.d(HOMEACTIVITY_TAG, "Orientation -> Portrait");
+	    }
+	}
 
 
     @Override
