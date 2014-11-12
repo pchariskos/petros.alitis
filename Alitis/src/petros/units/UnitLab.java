@@ -18,8 +18,12 @@ import android.content.Context;
  */
 public class UnitLab {
 
-	// An ArrayList that supports an ordered list of objects.
-	private ArrayList<Unit> mUnits;
+	// The ArrayList that will store all the units.
+	// Supports an ordered list of objects.
+	private ArrayList<Unit> mAllUnits;
+	
+	// The ArrayList that will be mutable and it will store units according to their status.
+	private ArrayList<Unit> mSelectionUnits;
 
 	// The singleton instance to be returned. "s" prefix for a static variable.
 	private static UnitLab sUnitLab;
@@ -32,6 +36,12 @@ public class UnitLab {
 	private UnitLab(Context appContext) {
 
 		mAppContext = appContext;
+		
+		// Initialize the list for all units.
+		mAllUnits = new ArrayList<Unit>();
+		
+		//Initialize the mutable list for a selection of units.
+		mSelectionUnits = new ArrayList<Unit>();
 
 		constructUnits();
 
@@ -41,7 +51,7 @@ public class UnitLab {
 
 	private void constructUnits() {
 
-		mUnits = new ArrayList<Unit>();
+		
 
 		for (int i = 1; i < 8; i++) {
 			Unit unit = new Unit();
@@ -82,7 +92,7 @@ public class UnitLab {
 				unit.setStatus(R.string.unit_i_uppdrag);
 			}
 
-			mUnits.add(unit);
+			mAllUnits.add(unit);
 		}
 	}
 
@@ -100,18 +110,36 @@ public class UnitLab {
 	}
 
 	/**
-	 * @return the array list of vehicles.
+	 * @return the array list of all vehicles.
 	 */
 	public ArrayList<Unit> getUnits() {
-		return mUnits;
+		return mAllUnits;
 	}
+	
+	/**
+	 * @return an array list of a selection of vehicles
+	 * depended on their status.
+	 */
+	public ArrayList<Unit> getUnits(int status) {
+		
+		mSelectionUnits.clear();
+		
+		for (Unit unit : mAllUnits) {
+			
+			if (unit.getStatus() == status) {
+				mSelectionUnits.add(unit);
+			}
+		}
+		return mSelectionUnits;
+	}
+
 
 	/**
 	 * @param id
 	 * @return the vehicle with the given id.
 	 */
 	public Unit getUnit(UUID id) {
-		for (Unit unit : mUnits) {
+		for (Unit unit : mAllUnits) {
 			if (unit.getID().equals(id))
 				return unit;
 		}

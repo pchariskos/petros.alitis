@@ -7,7 +7,9 @@ import petros.alitis.R;
 import SpinnerNavigation.SpinnerAdapter;
 import SpinnerNavigation.SpinnerNavItem;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -49,11 +51,18 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
     // Navigation adapter
     private SpinnerAdapter mSpinnerAdapter;
 	
-	//The array list of units stored in UnitLab.
-	private ArrayList<Unit> mUnits;
-	
-	// the action bar
+	// The action bar
 	private ActionBar mActionBar;
+	
+    // The preferences name for the spinner navigation selection.
+ 	public static final String SPINNER_PREFS_NAME = "spinnerState";
+ 	
+ 	private static final String SPINNER_SELECTION = "spinnerSelection";
+ 	
+    private SharedPreferences spinnerStatePrefs;
+    
+    // The variable that stores the selected spinner item.
+    private int spinnerItemSelection;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,13 +88,56 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 		
 		setHasOptionsMenu(true);
 		
-		//Get the VehicleLab singleton and then get the list of vehicles.
-		mUnits = UnitLab.get(getActivity()).getUnits();
+		spinnerItemSelection = 0;
 		
-		UnitAdapter adapter = new UnitAdapter (mUnits);
-		setListAdapter(adapter);
+		spinnerStatePrefs = getActivity().getSharedPreferences(SPINNER_PREFS_NAME, Context.MODE_PRIVATE);
+		
+		// Set the item position that the navigation spinner should first invoke
+		// Which is saved in sharedpreferences 
+		mActionBar.setSelectedNavigationItem(spinnerStatePrefs.getInt(SPINNER_SELECTION, 0));
+		
+		initAdapter();
 	}
 	
+	private void initAdapter() {
+		
+		ArrayList<Unit> listToShow = getUnitListToShow();
+	    
+	    setListAdapter(new UnitAdapter (listToShow));
+	  }
+	
+	private ArrayList<Unit> getUnitListToShow() {
+
+		switch (mActionBar.getSelectedNavigationIndex()) {
+
+		// "All"
+		case 0:
+			ArrayList<Unit> mAllUnits = UnitLab.get(getActivity()).getUnits();
+			Log.d(LIST_FRAGMENT_TAG,"All units are:" + String.valueOf(mAllUnits));
+			return mAllUnits;
+
+		// "I uppdrag"
+		case 1:
+			ArrayList<Unit> mUnitsLediga = UnitLab.get(getActivity()).getUnits(R.string.unit_ledig);
+			Log.d(LIST_FRAGMENT_TAG,"The ledig units are:" + String.valueOf(mUnitsLediga));
+			return mUnitsLediga;
+
+		// "Lediga"
+		case 2:
+			ArrayList<Unit> mUnitsUppdrag = UnitLab.get(getActivity()).getUnits(R.string.unit_i_uppdrag);
+			Log.d(LIST_FRAGMENT_TAG,"The units i uppdrag are:" + String.valueOf(mUnitsUppdrag));
+			return mUnitsUppdrag;
+
+		// "Trasiga"
+		case 3:
+			ArrayList<Unit> mUnitsTrasiga = UnitLab.get(getActivity()).getUnits(R.string.unit_trasig);
+			Log.d(LIST_FRAGMENT_TAG,"The trasiga units are:" + String.valueOf(mUnitsTrasiga));
+			return mUnitsTrasiga;
+
+		default:
+			return getUnitListToShow();
+		}
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -99,6 +151,18 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onResume() {
 		super.onResume();
 		((UnitAdapter)getListAdapter()).notifyDataSetChanged();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		// Save the current state (selected item) of the navigation spinner
+		spinnerStatePrefs = getActivity().getSharedPreferences(SPINNER_PREFS_NAME, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = spinnerStatePrefs.edit();
+		editor.putInt(SPINNER_SELECTION, spinnerItemSelection);
+		
+		editor.commit();
 	}
 	
 	/*
@@ -127,7 +191,7 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 			return true; 
 		case R.id.action_refresh:
 			Log.d(LIST_FRAGMENT_TAG, "[onOptionsItemSelected]:  Refresh Pressed");
-			return true; 
+			return true;
 			
 		}
 		return super.onOptionsItemSelected(item);
@@ -135,19 +199,52 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 	
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		// Save the current selection
+		spinnerItemSelection = itemPosition;
+		
+		switch (itemPosition) {
+		
+		// "All"
+		case 0:
+			
+			initAdapter();
+			return true; 
+		
+		// "I uppdrag"
+		case 1:
+			
+			initAdapter();
+			return true; 
+			
+		// "Lediga"
+		case 2:
+			
+			initAdapter();
+			return true;
+			
+		// "Trasiga"
+		case 3:
+			
+			initAdapter();
+			return true;
+
+		default:
+            return onNavigationItemSelected(itemPosition, itemId);
+		}
 	}
 	
 	@Override
 	public void onListItemClick (ListView l, View v, int position, long id) {
+		
 		Unit unit = ( (UnitAdapter) getListAdapter()).getItem(position);
 		
-		//Start VehicleActivity
-		/////////////Intent intent = new Intent(getActivity(), VehicleActivity.class);
-		//Add an Intent extra to tell the VehicleFragment which vehicle to display
-		/////////////intent.putExtra(VehicleFragment.EXTRA_CRIME_ID, unit.getID());
-		/////////////startActivity(intent);
+		// Start VehicleActivity
+		Intent intent = new Intent(getActivity(), UnitActivity.class);
+		
+		// Add an Intent extra to tell the VehicleFragment which vehicle to display
+		intent.putExtra(UnitFragment.EXTRA_UNIT_ID, unit.getID());
+		startActivity(intent);
 	}
 
 	/**

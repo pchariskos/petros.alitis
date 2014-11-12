@@ -13,17 +13,44 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyCustomTheme" >
+        
+        <!--
+            "configChanges": notifies the activity to take care of the orientation
+            screen change instead of the Android OS, thus, the activity is not 
+            destroyed and re-created.
+            "uiOptions"&"meta-data block": Splits the action bar, forming a separate bar at the
+            bottom of the screen to display all action items when the activity is running
+            on a narrow screen (such as a portrait-oriented handset).
+        -->
         <activity
             android:name=".MainPagerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|locale|keyboard|fontScale|uiMode"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:uiOptions="splitActionBarWhenNarrow">
+            
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity 
+            android:name="petros.units.UnitActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainPagerActivity" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainPagerActivity"/>
+            
+        </activity>
+        <activity
+            android:name=".AbstractSingleFragmentActivity"
+            android:label="@string/app_name"
+            ></activity>
+
+        <!-- Adding the debug API key -->
         <meta-data android:name="com.google.android.gms.version"
         android:value="@integer/google_play_services_version" />
 
