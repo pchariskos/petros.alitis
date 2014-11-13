@@ -28,15 +28,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Interacts between the model layer (the array list of vehicles) and the
- * ListView. It accesses the data set of the array list and presents those
- * in a ListFragment.
+ * Is a controller Class that interacts between the model layer (the array list of units) 
+ * and the ListView. It accesses the data set of the array list and presents those
+ * in a ListFragment. The adapter applied on the ListFragment is depended on the spinner
+ * selected item.
  * 
  * @author pchariskos
  *
  */
 public class UnitListFragment extends ListFragment implements ActionBar.OnNavigationListener {
 	
+	// Debugging tag for this fragment
 	private static final String LIST_FRAGMENT_TAG = "UnitListFragment";
 	
 	/**
@@ -60,9 +62,6 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
  	private static final String SPINNER_SELECTION = "spinnerSelection";
  	
     private SharedPreferences spinnerStatePrefs;
-    
-    // The variable that stores the selected spinner item.
-    private int spinnerItemSelection;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
         // Enabling Spinner dropdown navigation
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
          
-        // Spinner title navigation data
+        // Spinner's titles navigation data
         addSpinnerItems();
          
         // title drop down adapter
@@ -88,55 +87,13 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 		
 		setHasOptionsMenu(true);
 		
-		spinnerItemSelection = 0;
-		
 		spinnerStatePrefs = getActivity().getSharedPreferences(SPINNER_PREFS_NAME, Context.MODE_PRIVATE);
 		
 		// Set the item position that the navigation spinner should first invoke
-		// Which is saved in sharedpreferences 
+		// Retrieved from sharedpreferences 
 		mActionBar.setSelectedNavigationItem(spinnerStatePrefs.getInt(SPINNER_SELECTION, 0));
 		
 		initAdapter();
-	}
-	
-	private void initAdapter() {
-		
-		ArrayList<Unit> listToShow = getUnitListToShow();
-	    
-	    setListAdapter(new UnitAdapter (listToShow));
-	  }
-	
-	private ArrayList<Unit> getUnitListToShow() {
-
-		switch (mActionBar.getSelectedNavigationIndex()) {
-
-		// "All"
-		case 0:
-			ArrayList<Unit> mAllUnits = UnitLab.get(getActivity()).getUnits();
-			Log.d(LIST_FRAGMENT_TAG,"All units are:" + String.valueOf(mAllUnits));
-			return mAllUnits;
-
-		// "I uppdrag"
-		case 1:
-			ArrayList<Unit> mUnitsLediga = UnitLab.get(getActivity()).getUnits(R.string.unit_ledig);
-			Log.d(LIST_FRAGMENT_TAG,"The ledig units are:" + String.valueOf(mUnitsLediga));
-			return mUnitsLediga;
-
-		// "Lediga"
-		case 2:
-			ArrayList<Unit> mUnitsUppdrag = UnitLab.get(getActivity()).getUnits(R.string.unit_i_uppdrag);
-			Log.d(LIST_FRAGMENT_TAG,"The units i uppdrag are:" + String.valueOf(mUnitsUppdrag));
-			return mUnitsUppdrag;
-
-		// "Trasiga"
-		case 3:
-			ArrayList<Unit> mUnitsTrasiga = UnitLab.get(getActivity()).getUnits(R.string.unit_trasig);
-			Log.d(LIST_FRAGMENT_TAG,"The trasiga units are:" + String.valueOf(mUnitsTrasiga));
-			return mUnitsTrasiga;
-
-		default:
-			return getUnitListToShow();
-		}
 	}
 	
 	@Override
@@ -157,16 +114,64 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onStop() {
 		super.onStop();
 
-		// Save the current state (selected item) of the navigation spinner
+		// Save the current selected item of the navigation spinner.
 		spinnerStatePrefs = getActivity().getSharedPreferences(SPINNER_PREFS_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = spinnerStatePrefs.edit();
-		editor.putInt(SPINNER_SELECTION, spinnerItemSelection);
+		editor.putInt(SPINNER_SELECTION, mActionBar.getSelectedNavigationIndex());
 		
 		editor.commit();
 	}
 	
+	/**
+	 * Form the arraylist to show, and set the arraylist to the list adapter.
+	 */
+	private void initAdapter() {
+		
+		ArrayList<Unit> listToShow = getUnitListToShow();
+	    
+	    setListAdapter(new UnitAdapter (listToShow));
+	  }
+	
+	/**
+	 * Calculate the arraylist of units to show according to the current spinner selection.
+	 * 
+	 * @return the arraylist of units
+	 */
+	private ArrayList<Unit> getUnitListToShow() {
+
+		switch (mActionBar.getSelectedNavigationIndex()) {
+
+		// "All"
+		case 0:
+			ArrayList<Unit> mAllUnits = UnitLab.get(getActivity()).getUnits();
+			Log.d(LIST_FRAGMENT_TAG,"All:" + String.valueOf(mAllUnits));
+			return mAllUnits;
+
+		// "I uppdrag"
+		case 1:
+			ArrayList<Unit> mUnitsLediga = UnitLab.get(getActivity()).getUnits(R.string.unit_ledig);
+			Log.d(LIST_FRAGMENT_TAG,"Ledig:" + String.valueOf(mUnitsLediga));
+			return mUnitsLediga;
+
+		// "Lediga"
+		case 2:
+			ArrayList<Unit> mUnitsUppdrag = UnitLab.get(getActivity()).getUnits(R.string.unit_i_uppdrag);
+			Log.d(LIST_FRAGMENT_TAG,"I uppdrag:" + String.valueOf(mUnitsUppdrag));
+			return mUnitsUppdrag;
+
+		// "Trasiga"
+		case 3:
+			ArrayList<Unit> mUnitsTrasiga = UnitLab.get(getActivity()).getUnits(R.string.unit_trasig);
+			Log.d(LIST_FRAGMENT_TAG,"Trasiga:" + String.valueOf(mUnitsTrasiga));
+			return mUnitsTrasiga;
+
+		default:
+			return getUnitListToShow();
+		}
+	}
+	
 	/*
-	 * Fills the spinner with data.
+	 * Fills the spinner navigation with data.
 	 */
 	private void addSpinnerItems() {
 		navSpinner = new ArrayList<SpinnerNavItem>();
@@ -197,11 +202,9 @@ public class UnitListFragment extends ListFragment implements ActionBar.OnNaviga
 		return super.onOptionsItemSelected(item);
 	}
 	
+	// The spinner navigation item selection.
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		
-		// Save the current selection
-		spinnerItemSelection = itemPosition;
 		
 		switch (itemPosition) {
 		
