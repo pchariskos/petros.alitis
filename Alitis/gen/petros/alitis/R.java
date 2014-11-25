@@ -1271,7 +1271,7 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f090002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f05001f;
+        public static final int abc_search_url_text_holo=0x7f050020;
         public static final int abc_search_url_text_normal=0x7f050018;
         public static final int abc_search_url_text_pressed=0x7f05001a;
         public static final int abc_search_url_text_selected=0x7f050019;
@@ -1289,8 +1289,8 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f050007;
         public static final int common_signin_btn_light_text_focused=0x7f050008;
         public static final int common_signin_btn_light_text_pressed=0x7f050006;
-        public static final int common_signin_btn_text_dark=0x7f050020;
-        public static final int common_signin_btn_text_light=0x7f050021;
+        public static final int common_signin_btn_text_dark=0x7f050021;
+        public static final int common_signin_btn_text_light=0x7f050022;
         public static final int main_app_theme=0x7f05001b;
         public static final int tabs_text=0x7f05001d;
         public static final int unit_text=0x7f05001e;
@@ -1312,8 +1312,9 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f050012;
         public static final int wallet_holo_blue_light=0x7f050016;
         public static final int wallet_link_text_light=0x7f050017;
-        public static final int wallet_primary_text_holo_light=0x7f050022;
-        public static final int wallet_secondary_text_holo_dark=0x7f050023;
+        public static final int wallet_primary_text_holo_light=0x7f050023;
+        public static final int wallet_secondary_text_holo_dark=0x7f050024;
+        public static final int white=0x7f05001f;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1627,9 +1628,9 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f0b0002;
         public static final int action_menu_presenter=0x7f0b0003;
         public static final int action_mode_close_button=0x7f0b0036;
-        public static final int action_refresh=0x7f0b005e;
-        public static final int action_search=0x7f0b005d;
-        public static final int action_settings=0x7f0b005f;
+        public static final int action_refresh=0x7f0b005f;
+        public static final int action_search=0x7f0b005e;
+        public static final int action_settings=0x7f0b0060;
         public static final int activity_chooser_view_content=0x7f0b0037;
         public static final int always=0x7f0b0022;
         public static final int beginning=0x7f0b0029;
@@ -1648,7 +1649,7 @@ containing a value of this type.
         public static final int end=0x7f0b002a;
         public static final int expand_activities_button=0x7f0b0038;
         public static final int expanded_menu=0x7f0b003e;
-        public static final int fragment_vehicle=0x7f0b0058;
+        public static final int fragment_vehicle=0x7f0b0059;
         public static final int grayscale=0x7f0b0018;
         public static final int holo_dark=0x7f0b000b;
         public static final int holo_light=0x7f0b000c;
@@ -1663,6 +1664,7 @@ containing a value of this type.
         public static final int imageView_statusIndicator=0x7f0b0055;
         public static final int listMode=0x7f0b001a;
         public static final int list_item=0x7f0b003b;
+        public static final int map=0x7f0b0058;
         public static final int match_parent=0x7f0b0012;
         public static final int middle=0x7f0b002b;
         public static final int monochrome=0x7f0b0019;
@@ -1700,12 +1702,12 @@ containing a value of this type.
         public static final int tabMode=0x7f0b001b;
         public static final int tabs=0x7f0b004e;
         public static final int terrain=0x7f0b000a;
-        public static final int testTitle=0x7f0b0059;
+        public static final int testTitle=0x7f0b005a;
         public static final int title=0x7f0b003d;
         public static final int top_action_bar=0x7f0b0032;
-        public static final int txtTitle=0x7f0b005a;
-        public static final int txtTitle1=0x7f0b005b;
-        public static final int txtTitle2=0x7f0b005c;
+        public static final int txtTitle=0x7f0b005b;
+        public static final int txtTitle1=0x7f0b005c;
+        public static final int txtTitle2=0x7f0b005d;
         public static final int up=0x7f0b0033;
         public static final int useLogo=0x7f0b0021;
         public static final int vehicle_list_item_statusTextView=0x7f0b0056;
@@ -1769,16 +1771,28 @@ containing a value of this type.
         public static final int fragment_empty_list=0x7f03001a;
         public static final int fragment_list_item_unit_row=0x7f03001b;
         public static final int fragment_main=0x7f03001c;
-        public static final int fragment_unit=0x7f03001d;
-        public static final int fragment_unit_list=0x7f03001e;
-        public static final int spinner_navigation_list_item_title=0x7f03001f;
-        public static final int spinner_navigation_title=0x7f030020;
-        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int fragment_map=0x7f03001d;
+        public static final int fragment_unit=0x7f03001e;
+        public static final int fragment_unit_list=0x7f03001f;
+        public static final int spinner_navigation_list_item_title=0x7f030020;
+        public static final int spinner_navigation_title=0x7f030021;
+        public static final int support_simple_spinner_dropdown_item=0x7f030022;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
     }
     public static final class string {
+        public static final int LocationServices_DIALOG=0x7f070057;
+        public static final int LocationServices_Message=0x7f070054;
+        public static final int LocationServices_Message_GPS=0x7f070052;
+        public static final int LocationServices_Message_Network=0x7f070050;
+        public static final int LocationServices_NegativeButton=0x7f070055;
+        public static final int LocationServices_PositiveButton=0x7f070056;
+        public static final int LocationServices_Title=0x7f070053;
+        public static final int LocationServices_Title_GPS=0x7f070051;
+        /**  AlertDialog 
+         */
+        public static final int LocationServices_Title_Network=0x7f07004f;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f070024;
@@ -1925,9 +1939,17 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070020;
+        public static final int connected=0x7f070049;
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
+        public static final int disconnected=0x7f07004a;
+        /**  Latitude, longitude format 
+         */
+        public static final int latitude_longitude=0x7f070058;
+        public static final int location_services_connected=0x7f07004e;
+        public static final int location_services_disconnected=0x7f07004d;
+        public static final int no_resolution=0x7f07004b;
         /**  LifeCycle Messages 
          */
         public static final int onAttach=0x7f07003f;
@@ -1938,6 +1960,10 @@ containing a value of this type.
         public static final int onResume=0x7f070043;
         public static final int onStart=0x7f070042;
         public static final int onStop=0x7f070045;
+        /**  Location Services - Google Play Services 
+         */
+        public static final int play_services_available=0x7f070047;
+        public static final int resolved=0x7f070048;
         public static final int s_unit_all=0x7f070038;
         public static final int s_unit_i_uppdrag=0x7f070039;
         public static final int s_unit_lediga=0x7f07003a;
@@ -1955,6 +1981,7 @@ containing a value of this type.
          */
         public static final int unit_ledig=0x7f070034;
         public static final int unit_trasig=0x7f070036;
+        public static final int unknown_activity_request_code=0x7f07004c;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

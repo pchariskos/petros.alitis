@@ -1,10 +1,10 @@
 package petros.alitis;
 
+import googleMaps.GoogleMapFragment;
+
 import java.util.Locale;
+
 import petros.units.UnitListFragment;
-
-import com.astuetz.*;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
@@ -23,8 +23,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.astuetz.PagerSlidingTabStrip;
 
-public class MainPagerActivity extends ActionBarActivity {
+
+public class MainPagerActivity extends ActionBarActivity 
+	//implements MainActivityListener 
+{
 	
 	// Debugging tag for the application
     private static final String HOMEACTIVITY_TAG = "HomeActivity";
@@ -185,7 +189,8 @@ public class MainPagerActivity extends ActionBarActivity {
 		Log.d(HOMEACTIVITY_TAG, "heightpixels:" + Integer.toString(dm.heightPixels));
 		Log.d(HOMEACTIVITY_TAG, "widthpixels:" + Integer.toString(dm.widthPixels));
 	}
-    
+	
+	
 
     /**
      * A {@link FragmentPagerAdapter} is an agent that returns a fragment corresponding to
@@ -205,7 +210,7 @@ public class MainPagerActivity extends ActionBarActivity {
             case 0:
             	return UnitListFragment.newInstance(position + 1);
             case 1:
-            	return PlaceholderFragment.newInstance(position + 1);
+            	return GoogleMapFragment.newInstance(position + 1);
             case 2:
             	return PlaceholderFragment.newInstance(position + 1);
             }

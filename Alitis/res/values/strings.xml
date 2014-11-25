@@ -32,5 +32,29 @@
     <string name="onPause">[OnPause]:</string>
     <string name="onStop">[OnStop]:</string>
     <string name="onDestroy">[OnDestroy]:</string>
+    
+    <!-- Location Services - Google Play Services -->
+    <string name="play_services_available">Google Play services is available</string>
+    <string name="resolved">Error resolved. Please re-try operation.</string>
+    <string name="connected">Client connected</string>
+    <string name="disconnected">Client disconnected</string>
+    <string name="no_resolution">Google Play services: unable to resolve connection error.</string>
+    <string name="unknown_activity_request_code">Received an unknown activity request code %1$d in onActivityResult.</string>
+    <string name="location_services_disconnected">Location Services: Disconnected.</string>
+    <string name="location_services_connected">Location Services: Connected.</string>
+    
+    <!-- AlertDialog -->
+    <string name="LocationServices_Title_Network">Network Location disabled</string>
+    <string name="LocationServices_Message_Network">You can improve your location accuracy by selecting the High accuracy Location mode.</string>
+    <string name="LocationServices_Title_GPS">GPS disabled</string>
+    <string name="LocationServices_Message_GPS">You can improve your location accuracy by selecting the High accuracy Location mode.</string>
+    <string name="LocationServices_Title">Location services disabled</string>
+    <string name="LocationServices_Message">Alitis needs access to your location. Please turn on Location Services.</string>
+    <string name="LocationServices_NegativeButton">Cancel</string>
+    <string name="LocationServices_PositiveButton">Settings</string>
+    <string name="LocationServices_DIALOG">dialog</string>
+    
+    <!-- Latitude, longitude format -->
+    <string name="latitude_longitude">%1$.8f, %2$.8f</string>
 
 </resources>

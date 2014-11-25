@@ -5,6 +5,8 @@
     <color name="tabs_text">#424242</color>
     <color name="unit_text">#757575</color>
     
+    <color name="white">#FFFFFF</color>
+    
     <!-- Other colors used in the app:
     1. BarTab's text color: #d1c4e9
     2. ActionBar's settings overflow icon: #b39ddb
