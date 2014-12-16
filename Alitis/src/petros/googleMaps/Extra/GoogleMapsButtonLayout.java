@@ -1,5 +1,6 @@
-package googleMaps;
+package petros.googleMaps.Extra;
 
+import petros.googleMaps.LocationUtils;
 import petros.alitis.R;
 import android.content.Context;
 import android.util.Log;

@@ -1,9 +1,10 @@
 package petros.alitis;
 
-import googleMaps.GoogleMapFragment;
 
 import java.util.Locale;
 
+import petros.googleMaps.GoogleMapsFragment;
+import petros.googleMaps.GooglePlayServicesController;
 import petros.units.UnitListFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -26,9 +27,7 @@ import android.widget.ImageView;
 import com.astuetz.PagerSlidingTabStrip;
 
 
-public class MainPagerActivity extends ActionBarActivity 
-	//implements MainActivityListener 
-{
+public class MainPagerActivity extends ActionBarActivity {
 	
 	// Debugging tag for the application
     private static final String HOMEACTIVITY_TAG = "HomeActivity";
@@ -115,6 +114,37 @@ public class MainPagerActivity extends ActionBarActivity
 		//changeColor(currentColor);
 	}
 	
+	@Override
+	public void onStart() {
+		super.onStart();
+		Log.d(HOMEACTIVITY_TAG, getString(R.string.onStart));
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d(HOMEACTIVITY_TAG, getString(R.string.onResume));
+		
+		// Check for Google Play services APK
+		if ( GooglePlayServicesController.get(this).servicesConnected() ) {
+			//TO DO STUFF
+		}
+
+		
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d(HOMEACTIVITY_TAG, getString(R.string.onPause));
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		Log.d(HOMEACTIVITY_TAG, getString(R.string.onStop));
+	}
+	
 	/*
 	 * Images that should change between landscape and portrait, must be re-assign each resource to each element here.
 	 * 
@@ -190,7 +220,6 @@ public class MainPagerActivity extends ActionBarActivity
 		Log.d(HOMEACTIVITY_TAG, "widthpixels:" + Integer.toString(dm.widthPixels));
 	}
 	
-	
 
     /**
      * A {@link FragmentPagerAdapter} is an agent that returns a fragment corresponding to
@@ -210,7 +239,8 @@ public class MainPagerActivity extends ActionBarActivity
             case 0:
             	return UnitListFragment.newInstance(position + 1);
             case 1:
-            	return GoogleMapFragment.newInstance(position + 1);
+            	return //TestMapFragment.newInstance(position + 1);
+            			GoogleMapsFragment.newInstance(position + 1);
             case 2:
             	return PlaceholderFragment.newInstance(position + 1);
             }

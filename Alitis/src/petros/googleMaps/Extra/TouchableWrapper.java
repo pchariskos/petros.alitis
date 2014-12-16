@@ -1,4 +1,4 @@
-package googleMaps;
+package petros.googleMaps.Extra;
 
 import android.content.Context;
 import android.os.SystemClock;
@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
  * The TouchableWrapper class declares an "UpdateMapAfterUserInterection" interface, which is implemented by the Map Fragment.
  * That way we have control over the map events, though is a hacky way of doing things. A frame layout is placed on top of
  * the Map Fragment's View intercepting the user interaction, and then it passed over to the map fragment.
+ * 
  * @author petroschariskos
  *
  */
@@ -22,7 +23,7 @@ public class TouchableWrapper extends FrameLayout {
 
 	private long lastTouched = 0;
 	private static final long SCROLL_TIME = 200L; // 200 Milliseconds. Can be adjusted according to specifications
-	private UpdateMapAfterUserInterection updateMapAfterUserInterection;
+	private UpdateMapAfterUserInteraction updateMapAfterUserInteraction;
 	
 	private boolean isScreenTouched = false;
 	
@@ -43,7 +44,7 @@ public class TouchableWrapper extends FrameLayout {
 		}
 
 		public TouchableWrapper(Context context) {
-		super( context);
+			super( context);
 		}
 
 	
@@ -61,9 +62,9 @@ public class TouchableWrapper extends FrameLayout {
 			if (now - lastTouched > SCROLL_TIME) {
 				Log.d(MAPFRAGMENT_TAG, "now - lastTouched > SCROLL_TIME");
 				// Update the map
-				if (updateMapAfterUserInterection != null)
-					updateMapAfterUserInterection
-							.onUpdateMapAfterUserInterection();
+				if (updateMapAfterUserInteraction != null)
+					updateMapAfterUserInteraction
+							.onUpdateMapAfterUserInteraction();
 				Log.d(MAPFRAGMENT_TAG, "onUpdateMapAfterUserInterection");
 			}
 			break;
@@ -74,11 +75,11 @@ public class TouchableWrapper extends FrameLayout {
 	
 
 	// Map Fragment must implement this interface
-    public interface UpdateMapAfterUserInterection {
-        public void onUpdateMapAfterUserInterection();
+    public interface UpdateMapAfterUserInteraction {
+        public void onUpdateMapAfterUserInteraction();
     }
     
-    public void setUpdateMapAfterUserInterection(UpdateMapAfterUserInterection mUpdateMapAfterUserInterection){
-    	this.updateMapAfterUserInterection = mUpdateMapAfterUserInterection;
+    public void setUpdateMapAfterUserInterection(UpdateMapAfterUserInteraction mUpdateMapAfterUserInteraction){
+    	this.updateMapAfterUserInteraction = mUpdateMapAfterUserInteraction;
     	}
 }

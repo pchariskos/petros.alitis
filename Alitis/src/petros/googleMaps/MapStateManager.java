@@ -1,4 +1,6 @@
-package googleMaps;
+package petros.googleMaps;
+
+import petros.googleMaps.Extra.GoogleMapButton;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;

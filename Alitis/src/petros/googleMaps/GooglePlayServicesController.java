@@ -1,4 +1,4 @@
-package googleMaps;
+package petros.googleMaps;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -13,41 +13,52 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class GooglePlayServicesManager {
+/**
+ * A manager class that encapsulates the check for Google Play services APK on the Android device.
+ * The check must be done before each connection attempt to Location Services and on the onResume()
+ * method of the main activity.
+ * 
+ * @author petroschariskos
+ *
+ */
+public class GooglePlayServicesController {
 	
 	// Debugging tag for this fragment
 	private static final String GOOGLE_PLAY_SERVICES_MANAGER_TAG = "GooglePlayServicesManager";
+	
+    /*
+     * Define a request code to send to Google Play services
+     * This code is returned in Activity.onActivityResult
+     */
+    private final static int
+            CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
 	// The singleton instance to be returned. "s" prefix for a static variable.
-	private static GooglePlayServicesManager sGooglePlayServicesManager;
+	private static GooglePlayServicesController sGooglePlayServicesManager;
 
 	// The application context. An application-wide singleton must
 	// always use the application context.
 	private Context mAppContext;
 
-	private GooglePlayServicesManager(Context appContext) {
+	private GooglePlayServicesController(Context appContext) {
 		mAppContext = appContext;
-
 	}
 	
 	/**
 	 * Context To ensure that the singleton has a long-term context
 	 * to work with, getApplicationContext() is used.
+	 * 
 	 * @param c
 	 * @return the singleton instance.
 	 */
-	public static GooglePlayServicesManager get(Context c) {
+	public static GooglePlayServicesController get(Context c) {
 		if (sGooglePlayServicesManager == null) {
-			sGooglePlayServicesManager = new GooglePlayServicesManager(c.getApplicationContext());
+			sGooglePlayServicesManager = new GooglePlayServicesController(c.getApplicationContext());
 		}
 		return sGooglePlayServicesManager;
 	}
 	
 	/**
-     * Verifies that Google Play Services APK is installed on the user's device before making a request for Location Services.
-     * 
-     * 						CALL THAT METHOD BEFORE EACH CONNECTION ATTEMPT!!!
-     *
      * @return true if Google Play services is available, otherwise false
      * 
      */
@@ -70,7 +81,7 @@ public class GooglePlayServicesManager {
 
 			// Get the error dialog from Google Play services
 			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
-					resultCode, (Activity) mAppContext, 0);
+					resultCode, (Activity) mAppContext, CONNECTION_FAILURE_RESOLUTION_REQUEST);
 
 			// If Google Play services can provide an error dialog
 			if (errorDialog != null) {
@@ -89,15 +100,7 @@ public class GooglePlayServicesManager {
 		}
 	}
 	
-	/**
-     * Handle results returned to this Activity by other Activities started with
-     * startActivityForResult(). In particular, the method onConnectionFailed() in
-     * LocationUpdateRemover and LocationUpdateRequester may call startResolutionForResult() to
-     * start an Activity that handles Google Play services problems. The result of this
-     * call returns here, to onActivityResult.
-     * 
-     * %%%%%%%%%%% FUTURE IMPROVEMENT: Replace the Toasts with a type of a message bar %%%%%%%%%%%
-     */
+	// Handle results returned to the hosting Activity. 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		// Decide what to do based on the original request code
@@ -105,6 +108,10 @@ public class GooglePlayServicesManager {
 		
 		case LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST:
 
+			/*
+             * If the result code is Activity.RESULT_OK, try
+             * to connect again
+             */
 			switch (resultCode) {
 			
 			// If Google Play services resolved the problem

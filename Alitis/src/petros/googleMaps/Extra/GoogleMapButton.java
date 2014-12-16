@@ -1,4 +1,4 @@
-package googleMaps;
+package petros.googleMaps.Extra;
 
 import petros.alitis.R;
 import android.content.Context;
