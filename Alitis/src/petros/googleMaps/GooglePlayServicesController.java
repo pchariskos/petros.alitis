@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class GooglePlayServicesController {
 	
 	// Debugging tag for this fragment
-	private static final String GOOGLE_PLAY_SERVICES_MANAGER_TAG = "GooglePlayServicesManager";
+	private static final String GOOGLE_PLAY_SERVICES_CONTROLLER_TAG = "GooglePlayServicesManager";
 	
     /*
      * Define a request code to send to Google Play services
@@ -72,7 +72,7 @@ public class GooglePlayServicesController {
 		if (ConnectionResult.SUCCESS == resultCode) {
 
 			// In debug mode, log the status
-			Log.d(GOOGLE_PLAY_SERVICES_MANAGER_TAG, mAppContext.getString(R.string.play_services_available));
+			Log.d(GOOGLE_PLAY_SERVICES_CONTROLLER_TAG, mAppContext.getString(R.string.play_services_available));
 
 			return true;
 
@@ -94,7 +94,7 @@ public class GooglePlayServicesController {
 
 				// Show the error dialog in the DialogFragment
 				errorFragment.show(((Activity) mAppContext).getFragmentManager(),
-						GOOGLE_PLAY_SERVICES_MANAGER_TAG);
+						GOOGLE_PLAY_SERVICES_CONTROLLER_TAG);
 			}
 			return false;
 		}
@@ -118,7 +118,7 @@ public class GooglePlayServicesController {
             case Activity.RESULT_OK:
 
                 // Log the result
-                Log.d(GOOGLE_PLAY_SERVICES_MANAGER_TAG, mAppContext.getString(R.string.resolved));
+                Log.d(GOOGLE_PLAY_SERVICES_CONTROLLER_TAG, mAppContext.getString(R.string.resolved));
 
                 // Display the result
                 Toast.makeText( (Activity) mAppContext, R.string.resolved, Toast.LENGTH_SHORT).show();
@@ -129,7 +129,7 @@ public class GooglePlayServicesController {
             default:
             	
                 // Log the result
-                Log.d(GOOGLE_PLAY_SERVICES_MANAGER_TAG, mAppContext.getString(R.string.no_resolution));
+                Log.d(GOOGLE_PLAY_SERVICES_CONTROLLER_TAG, mAppContext.getString(R.string.no_resolution));
 
                 // Display the result
                 Toast.makeText( (Activity) mAppContext, R.string.no_resolution, Toast.LENGTH_SHORT).show();
@@ -142,7 +142,7 @@ public class GooglePlayServicesController {
     default:
     	
        // Report that this Activity received an unknown requestCode
-       Log.d(GOOGLE_PLAY_SERVICES_MANAGER_TAG,
+       Log.d(GOOGLE_PLAY_SERVICES_CONTROLLER_TAG,
     		   mAppContext.getString(R.string.unknown_activity_request_code, requestCode));
 
        break;

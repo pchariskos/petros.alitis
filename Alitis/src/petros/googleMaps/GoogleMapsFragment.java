@@ -1,15 +1,15 @@
 package petros.googleMaps;
 
 import petros.alitis.R;
+import android.app.Activity;
 import android.app.Fragment;
-import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
 
 /**
  * Adds the Map to the Android App and handles all the Map options. This class implements 
@@ -32,15 +32,15 @@ import com.google.android.gms.maps.model.*;
  *
  */
 public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
+	
+	// Debugging tag for this fragment
+	private static final String GOOGLE_MAPS_FRAGMENT_TAG = "GoogleMapFragment";
 
 	/**
 	 * A View which displays a map (with data obtained from the Google Maps service). When focused,
 	 * it will capture keypresses and touch gestures to move the map.
 	 */
 	private MapView mMapView;
-	
-	
-	private GoogleMap mGoogleMap;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +75,26 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
 	public void onResume() {
 		super.onResume();
 		mMapView.onResume();
+		
+		
+		try {
+			// if location services are not enabled
+			if (!LocationServicesController.get(getActivity()).isLocationServicesEnabled(getActivity())) {
+				
+				// if fragment dialog is not on the fragment stack i.e. is not shown to the user
+				if (getActivity().getFragmentManager().findFragmentByTag("LocationAlertDialog") == null) {
+					
+					// show an alert dialog with the "settings" option 
+					LocationServicesController.get(getActivity())
+					.getLocationServicesAlertDialog()
+					.show(((Activity) getActivity()).getFragmentManager(), "LocationAlertDialog");
+				}
+			} else {
+				Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Services Enabled");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -124,6 +144,5 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
 		
 		// Turn the traffic layer on
 		map.setTrafficEnabled(true);
-		
 	}
 }

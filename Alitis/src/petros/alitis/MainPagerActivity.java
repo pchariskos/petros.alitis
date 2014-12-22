@@ -124,13 +124,16 @@ public class MainPagerActivity extends ActionBarActivity {
 	public void onResume() {
 		super.onResume();
 		Log.d(HOMEACTIVITY_TAG, getString(R.string.onResume));
-		
-		// Check for Google Play services APK
-		if ( GooglePlayServicesController.get(this).servicesConnected() ) {
-			//TO DO STUFF
+
+		try {
+			// Check for Google Play services APK
+			if (GooglePlayServicesController.get(this).servicesConnected()) {
+				// TO DO STUFF
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		
 	}
 
 	@Override
