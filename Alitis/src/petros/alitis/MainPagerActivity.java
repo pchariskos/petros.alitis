@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -127,13 +128,15 @@ public class MainPagerActivity extends ActionBarActivity {
 
 		try {
 			// Check for Google Play services APK
+			// if not, the class informs the user with an error dialog
 			if (GooglePlayServicesController.get(this).servicesConnected()) {
-				// TO DO STUFF
+				// Application exits at that point
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Toast.makeText(this,
+					"Please refer to your software provider refering this type of error: "
+							+ e, Toast.LENGTH_LONG).show();
 		}
-
 	}
 
 	@Override

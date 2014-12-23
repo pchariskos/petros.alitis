@@ -85,23 +85,23 @@ public class GoogleMapFragment extends MapFragment implements
 
 	private TouchableWrapper mTouchView;
 
-	/**
-	 * Connect the listener to the HomeActivitiy's implemented methods. The
-	 * listener is used to keep decoupled the HomeActivity from the
-	 * GoogleMapFragment.
-	 */
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		Log.d(MAPFRAGMENT_TAG, getString(R.string.onAttach));
-
-		// try {
-		// mHomeActivitylistener = (HomeActivityListener) activity;
-		// } catch (ClassCastException castException) {
-		// // If the activity does not implement the listener. Log the
-		// exception.
-		// castException.printStackTrace();
-		// }
-	}
+//	/**
+//	 * Connect the listener to the HomeActivitiy's implemented methods. The
+//	 * listener is used to keep decoupled the HomeActivity from the
+//	 * GoogleMapFragment.
+//	 */
+//	public void onAttach(Activity activity) {
+//		super.onAttach(activity);
+//		Log.d(MAPFRAGMENT_TAG, getString(R.string.onAttach));
+//
+//		// try {
+//		// mHomeActivitylistener = (HomeActivityListener) activity;
+//		// } catch (ClassCastException castException) {
+//		// // If the activity does not implement the listener. Log the
+//		// exception.
+//		// castException.printStackTrace();
+//		// }
+//	}
 
 	/**
 	 * Configure the fragment's instance in this method. A bundle used to save
