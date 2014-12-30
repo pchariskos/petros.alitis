@@ -82,6 +82,9 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     // Boolean to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     
+    // Boolean to keep track of location updates
+    private boolean mUpdatingLocation = false;
+    
     // track whether location updates are currently turned on
     private boolean mRequestingLocationUpdates = true;			// FLAG TO BE USED IN THE FUTURE UI WITH BUTTON ETC.
     
@@ -205,7 +208,11 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	public void onPause() {
 		super.onPause();
 		mMapView.onPause();
-		stopLocationUpdates();
+		
+		if (mUpdatingLocation) {
+			stopLocationUpdates();
+		}
+		
 		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onPause");
 	}
 	
@@ -443,15 +450,29 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	}
 	
 	protected void startLocationUpdates() {
-	    LocationServices.FusedLocationApi.requestLocationUpdates(
-	            mGoogleApiClient, mLocationRequest, this);
-	    Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Updates Started");
+
+		try {
+			LocationServices.FusedLocationApi.requestLocationUpdates(
+					mGoogleApiClient, mLocationRequest, this);
+			mUpdatingLocation = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Updates Started");
 	}
 	
 	protected void stopLocationUpdates() {
-	    LocationServices.FusedLocationApi.removeLocationUpdates(
-	            mGoogleApiClient, this);
-	    Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Updates Stoped");
+
+		try {
+			LocationServices.FusedLocationApi.removeLocationUpdates(
+					mGoogleApiClient, this);
+			mUpdatingLocation = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Updates Stoped");
 	}
 	
 	@Override
