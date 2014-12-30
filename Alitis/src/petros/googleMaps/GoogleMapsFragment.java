@@ -21,6 +21,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -44,10 +46,13 @@ import com.google.android.gms.maps.model.LatLng;
  * forward all the activity life cycle methods - onCreate(), onDestroy(), onResume(), and onPause() -
  * to the corresponding methods in the MapView class.
  * 
+ * This Class requests regular updates about the device's location using the requestLocationUpdates()
+ * method in the fused location provider.
+ * 
  * @author petroschariskos
  *
  */
-public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener{
+public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	
 	// Debugging tag for this fragment
 	private static final String GOOGLE_MAPS_FRAGMENT_TAG = "GoogleMapFragment";
@@ -62,8 +67,11 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	// Manages the network connection between the user's device and each Google service.
 	private GoogleApiClient mGoogleApiClient;
 	
-	// Global variable to hold the current location
-	private Location mLastLocation;
+	// The Location Request Object
+	LocationRequest mLocationRequest;
+	
+	// Global variable to hold the current (last known location) location
+	private Location mCurrentLocation;
 	
 	// Request code to use when launching the resolution activity
     private static final int REQUEST_RESOLVE_ERROR = 1001;
@@ -74,12 +82,17 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     // Boolean to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     
+    // track whether location updates are currently turned on
+    private boolean mRequestingLocationUpdates = true;			// FLAG TO BE USED IN THE FUTURE UI WITH BUTTON ETC.
+    
+    // Unique tag for saving the state of location updates
+    private static final String REQUESTING_LOCATION_UPDATES_KEY = "request location updates";
+    
+    // Unique tag for saving the state of the current location
+    private static final String LOCATION_KEY = "location";
+    
     // Unique tag for the resolving error boolean
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
-    
-    private static final LatLng MOUNTAIN_VIEW = new LatLng(37.4, -122.1);
-    
-    
 	
 	/**
 	 * Configure the fragment's instance in this method. A bundle used to save
@@ -92,8 +105,13 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		// recover the saved state
 		mResolvingError = savedInstanceState != null && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
 		
+		updateValuesFromBundle(savedInstanceState);
+		
 		// build the Google API Client
 		buildGoogleApiClient();
+		
+		// create the location request
+		createLocationRequest();
 	}
 
 	@Override
@@ -150,6 +168,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		mMapView.onResume();
 		
 		try {
+			
 			// if location services are not enabled
 			if (!LocationServicesController.get(getActivity()).isLocationServicesEnabled(getActivity())) {
 				
@@ -161,8 +180,16 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 					.getLocationServicesAlertDialog()
 					.show(((Activity) getActivity()).getFragmentManager(), "LocationAlertDialog");
 				}
-			} else {
+			} 
+			
+			// Location Services are enabled
+			else {
 				Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Services Enabled");
+				
+				// If the client is connected start the location updates
+				if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
+			        startLocationUpdates();
+			    }
 			}
 		} catch (Exception e) {
 			Toast.makeText(
@@ -178,6 +205,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	public void onPause() {
 		super.onPause();
 		mMapView.onPause();
+		stopLocationUpdates();
 		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onPause");
 	}
 	
@@ -209,6 +237,34 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
+	    outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, mRequestingLocationUpdates);
+	    outState.putParcelable(LOCATION_KEY, mCurrentLocation);
+	}
+	
+	/**
+	 * Restore the saved values from the previous instance of the activity, if
+	 * they're available.
+	 * 
+	 * @param savedInstanceState
+	 */
+	private void updateValuesFromBundle(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			// Update the value of mRequestingLocationUpdates from the Bundle
+			if (savedInstanceState.keySet().contains(
+					REQUESTING_LOCATION_UPDATES_KEY)) {
+				mRequestingLocationUpdates = savedInstanceState
+						.getBoolean(REQUESTING_LOCATION_UPDATES_KEY);
+			}
+
+			// Update the value of mCurrentLocation from the Bundle
+			if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
+				// Since LOCATION_KEY was found in the Bundle, we can be sure
+				// that
+				// mCurrentLocation is not null.
+				mCurrentLocation = savedInstanceState
+						.getParcelable(LOCATION_KEY);
+			}
+		}
 	}
 	
 	/**
@@ -343,13 +399,13 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	 */
 	private Location getLastLocation() {
 		
-		mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+		mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-		if (mLastLocation != null) {
-			Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Latitude " + String.valueOf(mLastLocation.getLatitude()));
-			Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Longitude " + String.valueOf(mLastLocation.getLongitude()));
+		if (mCurrentLocation != null) {
+			Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Latitude " + String.valueOf(mCurrentLocation.getLatitude()));
+			Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Longitude " + String.valueOf(mCurrentLocation.getLongitude()));
         }
-		return mLastLocation;
+		return mCurrentLocation;
 	}
 	
 	private static float calculateZoom(GoogleMap map) {
@@ -377,6 +433,32 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	        .addApi(LocationServices.API)
 	        .build();
 	}
+	
+	// Create the Location Request Object
+	protected void createLocationRequest() {
+	    mLocationRequest = new LocationRequest();
+	    mLocationRequest.setInterval(LocationUtils.UPDATE_INTERVAL_IN_MILLISECONDS);
+	    mLocationRequest.setFastestInterval(LocationUtils.FAST_INTERVAL_CEILING_IN_MILLISECONDS);
+	    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+	}
+	
+	protected void startLocationUpdates() {
+	    LocationServices.FusedLocationApi.requestLocationUpdates(
+	            mGoogleApiClient, mLocationRequest, this);
+	    Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Updates Started");
+	}
+	
+	protected void stopLocationUpdates() {
+	    LocationServices.FusedLocationApi.removeLocationUpdates(
+	            mGoogleApiClient, this);
+	    Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "Location Updates Stoped");
+	}
+	
+	@Override
+	public void onLocationChanged(Location location) {
+		mCurrentLocation = location;
+		// TODO
+	}
 
 	// During onConnectionFailed() callback, we should call hasResolution() on the provided ConnectionResult object
 	// and resolve the error by calling startResolutionForResult
@@ -403,17 +485,23 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
         }
 	}
 
+	// // When connected to Google Play Location Services
 	@Override
 	public void onConnected(Bundle arg0) {
 
 		// if location services are enabled (Important check! otherwise throws
-		// an error when is not enabled)
+		// an error when is not enabled on the device)
 		if (LocationServicesController.get(getActivity()).isLocationServicesEnabled(getActivity())) {
 
 			try {
 
 				// animate the camera to the current location
 				animateCamera(mMapView, mMapView.getMap(), getLatlong(getLastLocation()));
+				
+				// if location updates on start location updates
+				if (mRequestingLocationUpdates) {
+			        startLocationUpdates();
+			    }
 				
 			} catch (Exception e) {
 				e.printStackTrace();

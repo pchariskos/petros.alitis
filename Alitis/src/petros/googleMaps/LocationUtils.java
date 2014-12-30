@@ -4,6 +4,7 @@ import petros.alitis.R;
 import android.content.Context;
 import android.location.Location;
 
+
 public class LocationUtils {
 
     // Name of shared preferences repository that stores persistent state
