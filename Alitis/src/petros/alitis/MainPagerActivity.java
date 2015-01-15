@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import petros.googleMaps.GoogleMapsFragment;
 import petros.googleMaps.GooglePlayServicesController;
+import petros.googleMaps.KartaStateManager;
 import petros.units.UnitListFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -149,6 +150,16 @@ public class MainPagerActivity extends ActionBarActivity {
 	public void onStop() {
 		super.onStop();
 		Log.d(HOMEACTIVITY_TAG, getString(R.string.onStop));
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		//%%%%%%%%%%%% DETERMINE THE BEHAVIOUR OF THE APP HERE %%%%%%%%%%%%%%%%
+		// %%%%% KANONIKA TA SHERED PREFS PREPEI NA ADEIAZOYN OTN KATASTREFETAI TO APP KAI OXI OTAN KATESTREFETAI TO HOMEACTIVITY %%%%%%
+		//this.getSharedPreferences(NavigationDrawerFragment.DRAWER_PREFS_NAME, 0).edit().clear().commit();
+		this.getSharedPreferences(KartaStateManager.MAP_PREFS_NAME, 0).edit().clear().commit();
+		Log.d(HOMEACTIVITY_TAG, getString(R.string.onDestroy));
 	}
 	
 	/*

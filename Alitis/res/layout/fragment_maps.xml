@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <!--
-         <TextView android:id="@+id/txtTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"
-        android:textSize="14sp"
-        android:text="TESTETSTSTTSSYS"
-        android:textColor="@color/actionbar_titleText"/>
-    -->
     
-    <!-- The Map Fragment. It also configures the initial state of the map.  -->
+    
+    <!-- The Map Fragment. It also configures the initial state of the map. 
+    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/shadow"
+     -->
 
     <com.google.android.gms.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         
-        map:mapType="normal"
         map:uiCompass="true"
         map:uiRotateGestures="true"
         map:uiScrollGestures="true"
@@ -33,5 +25,24 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="true"
         map:uiMapToolbar="false" />
+    
+    <ImageButton
+        android:id="@+id/imageButton_MapType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="30dp"
+        
+        android:background="@drawable/shadow"
+  		android:paddingBottom="4dp"
+  		android:paddingLeft="2dp"
+  		android:paddingRight="3dp"
+  		android:paddingTop="1dp"
+        
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        
+        android:contentDescription="Satellite/Terrain View"
+         />
 
-</LinearLayout>
+</RelativeLayout>

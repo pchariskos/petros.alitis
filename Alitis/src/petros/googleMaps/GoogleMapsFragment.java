@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -26,6 +27,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -73,6 +75,12 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	// Global variable to hold the current (last known location) location
 	private Location mCurrentLocation;
 	
+	// The google map type
+	private int mGoogleMapType;
+	
+	// The camera position
+	private static CameraPosition mCameraPosition;
+	
 	// Request code to use when launching the resolution activity
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     
@@ -88,14 +96,17 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     // track whether location updates are currently turned on
     private boolean mRequestingLocationUpdates = true;			// FLAG TO BE USED IN THE FUTURE UI WITH BUTTON ETC.
     
-    // Unique tag for saving the state of location updates
-    private static final String REQUESTING_LOCATION_UPDATES_KEY = "request location updates";
+    // Unique tag for storing the state of location updates
+    private static final String KEY_REQUESTING_LOCATION_UPDATES = "request location updates";
     
-    // Unique tag for saving the state of the current location
-    private static final String LOCATION_KEY = "location";
+    // Unique tag for storing the state of the current location
+    private static final String KEY_CURRENT_LOCATION = "location";
     
-    // Unique tag for the resolving error boolean
-    private static final String STATE_RESOLVING_ERROR = "resolving_error";
+    // Unique tag for storing the resolving error boolean
+    private static final String KEY_RESOLVING_ERROR = "resolving_error";
+    
+    
+    //private GoogleMap mGoogleMap; use mMapView.getMap() instead
 	
 	/**
 	 * Configure the fragment's instance in this method. A bundle used to save
@@ -105,16 +116,17 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// recover the saved state
-		mResolvingError = savedInstanceState != null && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
-		
 		updateValuesFromBundle(savedInstanceState);
-		
+
+		restoreCurrentState();
+
 		// build the Google API Client
 		buildGoogleApiClient();
-		
+
 		// create the location request
 		createLocationRequest();
+		
+		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "OnCreate");
 	}
 
 	@Override
@@ -144,7 +156,36 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	        e.printStackTrace();
 	    }
 		
-		//mGoogleMap = mMapView.getMap();
+		// the map type imagebutton
+		final ImageButton mapTypeImageButton = (ImageButton) v.findViewById(R.id.imageButton_MapType);
+		
+		// Set the background image of the image button
+		mapTypeImageButton.setImageResource(getMapTypeImage());
+		
+		// Set up onClick functionality
+		mapTypeImageButton.setOnClickListener(new View.OnClickListener() {
+
+			// flag that shows if the satellite view is currently selected
+			private boolean satelliteView = true;
+
+			public void onClick(View v) {
+
+				// if satelliteView
+				if (satelliteView) {
+					
+					// set the background to be the normal image 
+					mapTypeImageButton
+							.setImageResource(R.drawable.ic_map_normal);
+					satelliteView = false;
+					updateMapType();
+				} else {
+					satelliteView = true;
+					updateMapType();
+					mapTypeImageButton
+							.setImageResource(R.drawable.ic_map_satellite);
+				}
+			}
+		});
 
 		// Perform any camera updates here
 		return v;
@@ -222,6 +263,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	@Override
     public void onStop() {
         mGoogleApiClient.disconnect();
+        saveCurrentState();
         super.onStop();
         Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onStop");
     }
@@ -240,12 +282,35 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onLowMemory");
 	}
 	
+	/**
+	 * MapStateManager Class uses SharedPreferences to store the current state
+	 * of the Map.
+	 */
+	private void saveCurrentState() {
+		KartaStateManager mgr = new KartaStateManager(this.getActivity());
+		mgr.saveMapState(mMapView.getMap());
+	}
+	
+	/**
+	 * MapStateManager Class uses SharedPreferences to restore the state of the
+	 * Map.
+	 */
+	private void restoreCurrentState() {
+		KartaStateManager mgr = new KartaStateManager(this.getActivity());
+
+		mCameraPosition = mgr.getSavedCameraPosition();
+		mGoogleMapType = mgr.getMapType();
+
+		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "mGoogleMapType " + mGoogleMapType);
+		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "State restored");
+	}
+	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
-	    outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
-	    outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, mRequestingLocationUpdates);
-	    outState.putParcelable(LOCATION_KEY, mCurrentLocation);
+	    outState.putBoolean(KEY_RESOLVING_ERROR, mResolvingError);
+	    outState.putBoolean(KEY_REQUESTING_LOCATION_UPDATES, mRequestingLocationUpdates);
+	    //outState.putParcelable(KEY_CURRENT_LOCATION, mCurrentLocation);
 	}
 	
 	/**
@@ -256,21 +321,26 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	 */
 	private void updateValuesFromBundle(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
+			
+			// Update the value of mResolvingError from the Bundle
+			if (savedInstanceState.keySet().contains(KEY_RESOLVING_ERROR)) {
+				mResolvingError =  savedInstanceState.getBoolean(KEY_RESOLVING_ERROR, false);
+			}
+			
 			// Update the value of mRequestingLocationUpdates from the Bundle
 			if (savedInstanceState.keySet().contains(
-					REQUESTING_LOCATION_UPDATES_KEY)) {
+					KEY_REQUESTING_LOCATION_UPDATES)) {
 				mRequestingLocationUpdates = savedInstanceState
-						.getBoolean(REQUESTING_LOCATION_UPDATES_KEY);
+						.getBoolean(KEY_REQUESTING_LOCATION_UPDATES);
 			}
 
-			// Update the value of mCurrentLocation from the Bundle
-			if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
-				// Since LOCATION_KEY was found in the Bundle, we can be sure
-				// that
-				// mCurrentLocation is not null.
-				mCurrentLocation = savedInstanceState
-						.getParcelable(LOCATION_KEY);
-			}
+//			// Update the value of mCurrentLocation from the Bundle
+//			if (savedInstanceState.keySet().contains(KEY_CURRENT_LOCATION)) {
+//				// Since LOCATION_KEY was found in the Bundle, we can be sure
+//				// that mCurrentLocation is not null.
+//				mCurrentLocation = savedInstanceState
+//						.getParcelable(KEY_CURRENT_LOCATION);
+//			}
 		}
 	}
 	
@@ -297,6 +367,9 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	@Override
 	public void onMapReady(GoogleMap map) {
 		
+		// Set the map type
+		map.setMapType(getMapType());
+		
 		// Enable the location button
 		map.setMyLocationEnabled(true);
 
@@ -305,6 +378,58 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 
 		// Turn the traffic layer on
 		map.setTrafficEnabled(true);
+		
+//		// Use this code snippet to override the MyLocationButton functionality
+//		map.setOnMyLocationButtonClickListener(new OnMyLocationButtonClickListener() {
+//			
+//            @Override
+//            public boolean onMyLocationButtonClick() {
+//            	// TODO
+//                return true;
+//            }
+//        });
+	}
+	
+	/**
+	 * 
+	 * @return the map type to be applied
+	 */
+	protected int getMapType() {
+		
+		// if the map type has not been assigned yet for some reason
+		if ( (mGoogleMapType != GoogleMap.MAP_TYPE_NORMAL) && (mGoogleMapType != GoogleMap.MAP_TYPE_SATELLITE) ) {
+			// assign the normal map type
+			mGoogleMapType = GoogleMap.MAP_TYPE_NORMAL;}
+		
+		return mGoogleMapType;
+	}
+	
+	/**
+	 * Interchanges the google map type between 
+	 * MAP_TYPE_NORMAL and MAP_TYPE_SATELLITE
+	 */
+	protected void updateMapType() {
+		if (mMapView.getMap().getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+			mMapView.getMap().setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		else
+			mMapView.getMap().setMapType(GoogleMap.MAP_TYPE_NORMAL);
+	}
+	
+	/**
+	 * 
+	 * @return the imageResource to be applied to the map type
+	 * Image Button when the fragment is being creating.
+	 */
+	private int getMapTypeImage() {
+		
+		int mapImageResource = -999;
+		 
+		if (mMapView.getMap().getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+			mapImageResource = R.drawable.ic_map_satellite;
+		else
+			mapImageResource = R.drawable.ic_map_normal;
+		
+		return mapImageResource;
 	}
 	
 //	protected OnCameraChangeListener getCameraChangeListener() {
@@ -345,43 +470,45 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	public static void animateCamera(final MapView mapView,
 			final GoogleMap map, final LatLng latLng) {
 
-			try {
-				
-				// 1st Solution
-				CameraPosition cameraPosition = new CameraPosition.Builder()
-			    .target(latLng)      // Sets the center of the map to Mountain View
-			    .zoom(calculateZoom(map))                   // Sets the zoom
-			    //.bearing(90)                // Sets the orientation of the camera to east
-			    //.tilt(30)                   // Sets the tilt of the camera to 30 degrees
-			    .build();
-				
-				map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-				
-				
-				// 2nd solution
-//				CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-//						latLng,
-//						calculateZoom(map));
-				
-//				map.animateCamera(cameraUpdate);
+		try {
+			// 1st Solution
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+					.target(latLng) // Sets the center of the map to
+									// Mountain View
+					.zoom(calculateZoom(map)) // Sets the zoom
+					// .bearing(90) // Sets the orientation of the camera to
+					// east
+					// .tilt(30) // Sets the tilt of the camera to 30
+					// degrees
+					.build();
 
-			} catch (Exception e) {
+			map.animateCamera(CameraUpdateFactory
+					.newCameraPosition(cameraPosition));
 
-				MapsInitializer.initialize(mapView.getContext());
+			// 2nd solution
+			// CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+			// latLng,
+			// calculateZoom(map));
 
-				if (map != null) {
-					
-					map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-						
-						@Override
-						public void onMapLoaded() {
-							if (latLng != null) {
-								animateCamera(mapView, mapView.getMap(), latLng);
-							}
+			// map.animateCamera(cameraUpdate);
+
+		} catch (Exception e) {
+
+			MapsInitializer.initialize(mapView.getContext());
+
+			if (map != null) {
+
+				map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+
+					@Override
+					public void onMapLoaded() {
+						if (latLng != null) {
+							animateCamera(mapView, mapView.getMap(), latLng);
 						}
-					});
-				}
+					}
+				});
 			}
+		}
 	}
 	
 	// returns the latitude and the longitude of a location
@@ -506,7 +633,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
         }
 	}
 
-	// // When connected to Google Play Location Services
+	// When connected to Google Play Location Services
 	@Override
 	public void onConnected(Bundle arg0) {
 
@@ -516,8 +643,10 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 
 			try {
 
-				// animate the camera to the current location
-				animateCamera(mMapView, mMapView.getMap(), getLatlong(getLastLocation()));
+				if (mCameraPosition == null) {
+					// animate the camera to the current location
+					animateCamera(mMapView, mMapView.getMap(), getLatlong(getLastLocation()));
+				}
 				
 				// if location updates on start location updates
 				if (mRequestingLocationUpdates) {
