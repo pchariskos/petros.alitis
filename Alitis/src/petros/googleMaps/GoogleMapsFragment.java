@@ -105,6 +105,8 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     // Unique tag for storing the resolving error boolean
     private static final String KEY_RESOLVING_ERROR = "resolving_error";
     
+    // flag that denotes if the state is stored in the shared preferences 
+    private boolean isStateStored = false;
     
     //private GoogleMap mGoogleMap; use mMapView.getMap() instead
 	
@@ -117,7 +119,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		super.onCreate(savedInstanceState);
 		
 		updateValuesFromBundle(savedInstanceState);
-
+		
 		restoreCurrentState();
 
 		// build the Google API Client
@@ -165,24 +167,20 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		// Set up onClick functionality
 		mapTypeImageButton.setOnClickListener(new View.OnClickListener() {
 
-			// flag that shows if the satellite view is currently selected
-			private boolean satelliteView = true;
-
 			public void onClick(View v) {
 
-				// if satelliteView
-				if (satelliteView) {
+				// if satellite map type
+				if (mMapView.getMap().getMapType() == GoogleMap.MAP_TYPE_SATELLITE) {
 					
-					// set the background to be the normal image 
-					mapTypeImageButton
-							.setImageResource(R.drawable.ic_map_normal);
-					satelliteView = false;
+					// set the background to be the normal image after the map type change
+					mapTypeImageButton.setImageResource(R.drawable.ic_map_satellite);
 					updateMapType();
-				} else {
-					satelliteView = true;
+				} 
+				
+				// if normal map type
+				else {
 					updateMapType();
-					mapTypeImageButton
-							.setImageResource(R.drawable.ic_map_satellite);
+					mapTypeImageButton.setImageResource(R.drawable.ic_map_normal);
 				}
 			}
 		});
@@ -257,16 +255,21 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onPause");
 	}
 	
-	/** 
-     * Disconnects the google client to avoid leaks. 
-     */ 
+	/**
+	 * Disconnects the google client to avoid leaks.
+	 */
 	@Override
-    public void onStop() {
-        mGoogleApiClient.disconnect();
-        saveCurrentState();
-        super.onStop();
-        Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onStop");
-    }
+	public void onStop() {
+		mGoogleApiClient.disconnect();
+
+		try {
+			saveCurrentState();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		super.onStop();
+		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "onStop");
+	}
 
 	@Override
 	public void onDestroy() {
@@ -289,11 +292,14 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	private void saveCurrentState() {
 		KartaStateManager mgr = new KartaStateManager(this.getActivity());
 		mgr.saveMapState(mMapView.getMap());
+		isStateStored = true;
 	}
 	
 	/**
-	 * MapStateManager Class uses SharedPreferences to restore the state of the
-	 * Map.
+	 * Restores the state of the Map using SharedPreferences
+	 * by calling the Class KartaStateManager. The restored values
+	 * are the camera position {@link #mCameraPosition} and the
+	 * map type {@link #mGoogleMapType}.
 	 */
 	private void restoreCurrentState() {
 		KartaStateManager mgr = new KartaStateManager(this.getActivity());
@@ -316,6 +322,8 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	/**
 	 * Restore the saved values from the previous instance of the activity, if
 	 * they're available.
+	 * 
+	 * NOTE: The current implementation of the app does not destroy the activity on rotation.
 	 * 
 	 * @param savedInstanceState
 	 */
@@ -417,18 +425,38 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	
 	/**
 	 * 
-	 * @return the imageResource to be applied to the map type
-	 * Image Button when the fragment is being creating.
+	 * @return the imageResource to be applied to the map type Image Button when
+	 *         the fragment is being creating.
 	 */
 	private int getMapTypeImage() {
-		
+
 		int mapImageResource = -999;
-		 
-		if (mMapView.getMap().getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+
+		// if no value has been assigned to mGoogleMapType from the
+		// restoreCurrentState()
+		if ((mGoogleMapType != GoogleMap.MAP_TYPE_NORMAL)
+				&& (mGoogleMapType != GoogleMap.MAP_TYPE_SATELLITE)) {
+
+			// check the current map type
+			if (mMapView.getMap().getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
+				
+				// the image has to show the satellite
+				mapImageResource = R.drawable.ic_map_satellite;
+			} else
+				
+				// the image has to show the normal
+				mapImageResource = R.drawable.ic_map_normal;
+		} 
+		
+		// if the mGoogleMapType has taken the normal type map
+		// from restoreCurrentState()
+		else if (mGoogleMapType == GoogleMap.MAP_TYPE_NORMAL) {
 			mapImageResource = R.drawable.ic_map_satellite;
+		}
+		
 		else
 			mapImageResource = R.drawable.ic_map_normal;
-		
+
 		return mapImageResource;
 	}
 	
@@ -472,6 +500,13 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 
 		try {
 			// 1st Solution
+			
+			// if the state hasn't been stored yet, which translates to 
+			// "the app is running after a first open"
+//			if (!isStateStored) {
+//				
+//			}
+			
 			CameraPosition cameraPosition = new CameraPosition.Builder()
 					.target(latLng) // Sets the center of the map to
 									// Mountain View
@@ -483,9 +518,9 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 					.build();
 
 			map.animateCamera(CameraUpdateFactory
-					.newCameraPosition(cameraPosition));
+					.newCameraPosition(cameraPosition)); 
 
-			// 2nd solution
+			// 2nd solution (Does not take into account the shared preferences)
 			// CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
 			// latLng,
 			// calculateZoom(map));
@@ -643,10 +678,15 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 
 			try {
 
-				if (mCameraPosition == null) {
+				// if the state hasn't been stored yet, which translates to 
+				// "the app is running after a first open"
+				if (!isStateStored) {
 					// animate the camera to the current location
 					animateCamera(mMapView, mMapView.getMap(), getLatlong(getLastLocation()));
-				}
+				} 
+				
+//				else
+//					animateCamera(mMapView, mMapView.getMap(), mCameraPosition));
 				
 				// if location updates on start location updates
 				if (mRequestingLocationUpdates) {

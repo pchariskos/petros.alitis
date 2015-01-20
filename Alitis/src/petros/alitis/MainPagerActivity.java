@@ -158,7 +158,7 @@ public class MainPagerActivity extends ActionBarActivity {
 		//%%%%%%%%%%%% DETERMINE THE BEHAVIOUR OF THE APP HERE %%%%%%%%%%%%%%%%
 		// %%%%% KANONIKA TA SHERED PREFS PREPEI NA ADEIAZOYN OTN KATASTREFETAI TO APP KAI OXI OTAN KATESTREFETAI TO HOMEACTIVITY %%%%%%
 		//this.getSharedPreferences(NavigationDrawerFragment.DRAWER_PREFS_NAME, 0).edit().clear().commit();
-		this.getSharedPreferences(KartaStateManager.MAP_PREFS_NAME, 0).edit().clear().commit();
+		//this.getSharedPreferences(KartaStateManager.MAP_PREFS_NAME, 0).edit().clear().commit();
 		Log.d(HOMEACTIVITY_TAG, getString(R.string.onDestroy));
 	}
 	
