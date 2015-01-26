@@ -75,11 +75,14 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	// Global variable to hold the current (last known location) location
 	private Location mCurrentLocation;
 	
+	// The initial zoom of the google map
+	private static final float CAMERA_ZOOM = 15;
+	
 	// The google map type
 	private int mGoogleMapType;
 	
 	// The camera position
-	private static CameraPosition mCameraPosition;
+	private CameraPosition mCameraPosition;
 	
 	// Request code to use when launching the resolution activity
     private static final int REQUEST_RESOLVE_ERROR = 1001;
@@ -120,8 +123,6 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		
 		updateValuesFromBundle(savedInstanceState);
 		
-		restoreCurrentState();
-
 		// build the Google API Client
 		buildGoogleApiClient();
 
@@ -184,8 +185,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 				}
 			}
 		});
-
-		// Perform any camera updates here
+		
 		return v;
 	}
 	
@@ -230,7 +230,9 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 				
 				// If the client is connected start the location updates
 				if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
+					
 			        startLocationUpdates();
+			        restoreCurrentState();
 			    }
 			}
 		} catch (Exception e) {
@@ -324,6 +326,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 	 * they're available.
 	 * 
 	 * NOTE: The current implementation of the app does not destroy the activity on rotation.
+	 * So, this method is useless at the moment.
 	 * 
 	 * @param savedInstanceState
 	 */
@@ -495,37 +498,46 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 //		};
 //	}
 	
+	public static void animateCamera(final MapView mapView, final GoogleMap map, final CameraPosition retrievedCameraPosition) {
+		
+		try {
+		
+			map.animateCamera(CameraUpdateFactory
+					.newCameraPosition(retrievedCameraPosition)); 
+			
+		} catch (Exception e) {
+			MapsInitializer.initialize(mapView.getContext());
+
+			if (map != null) {
+
+				map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+
+					@Override
+					public void onMapLoaded() {
+						if (retrievedCameraPosition != null) {
+							animateCamera(mapView, mapView.getMap(), retrievedCameraPosition);
+						}
+					}
+				});
+			}
+		}
+	}
+	
 	public static void animateCamera(final MapView mapView,
 			final GoogleMap map, final LatLng latLng) {
 
 		try {
-			// 1st Solution
-			
-			// if the state hasn't been stored yet, which translates to 
-			// "the app is running after a first open"
-//			if (!isStateStored) {
-//				
-//			}
 			
 			CameraPosition cameraPosition = new CameraPosition.Builder()
-					.target(latLng) // Sets the center of the map to
-									// Mountain View
-					.zoom(calculateZoom(map)) // Sets the zoom
-					// .bearing(90) // Sets the orientation of the camera to
-					// east
-					// .tilt(30) // Sets the tilt of the camera to 30
-					// degrees
+					.target(latLng)
+					//.zoom(calculateZoom(map)) // Sets the zoom
+					.zoom(CAMERA_ZOOM)
+					// .bearing(90) // Sets the orientation of the camera
+					// .tilt(30) // Sets the tilt of the camera to 30 degrees
 					.build();
 
 			map.animateCamera(CameraUpdateFactory
 					.newCameraPosition(cameraPosition)); 
-
-			// 2nd solution (Does not take into account the shared preferences)
-			// CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-			// latLng,
-			// calculateZoom(map));
-
-			// map.animateCamera(cameraUpdate);
 
 		} catch (Exception e) {
 
@@ -577,19 +589,19 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 		return mCurrentLocation;
 	}
 	
-	private static float calculateZoom(GoogleMap map) {
-
-		float mCurrentZoom = map.getCameraPosition().zoom;
-		float mZoom;
-		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "mCurrentZoom " + mCurrentZoom);
-
-		if (mCurrentZoom > 13) {
-			mZoom = mCurrentZoom;
-		} else {
-			mZoom = 16;
-		}
-		return mZoom;
-	}
+//	private static float calculateZoom(GoogleMap map) {
+//
+//		float mCurrentZoom = map.getCameraPosition().zoom;
+//		float mZoom;
+//		Log.d(GOOGLE_MAPS_FRAGMENT_TAG, "mCurrentZoom " + mCurrentZoom);
+//
+//		if (mCurrentZoom > 13) {
+//			mZoom = mCurrentZoom;
+//		} else {
+//			mZoom = 14;
+//		}
+//		return mZoom;
+//	}
 	
 	/**
 	 * Instance that connects to Google Play services and the location services API.
@@ -678,15 +690,24 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 
 			try {
 
-				// if the state hasn't been stored yet, which translates to 
-				// "the app is running after a first open"
+				/*
+				 * if the state hasn't been stored yet, which translates to 
+				 * "the main activity has been created and has not been stopped yet",
+				 * so is the first "app opening" for the user
+				 */
 				if (!isStateStored) {
 					// animate the camera to the current location
 					animateCamera(mMapView, mMapView.getMap(), getLatlong(getLastLocation()));
 				} 
 				
-//				else
-//					animateCamera(mMapView, mMapView.getMap(), mCameraPosition));
+				/*
+				 * if the state has been saved, which translates to
+				 * "the user has stopped and resumed the activity", but not killed it
+				 * and has return to the app
+				 */
+				else
+					//animate the camera to the retrieved camera position
+					animateCamera(mMapView, mMapView.getMap(), mCameraPosition);
 				
 				// if location updates on start location updates
 				if (mRequestingLocationUpdates) {

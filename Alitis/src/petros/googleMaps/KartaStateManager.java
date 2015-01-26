@@ -31,7 +31,7 @@ public class KartaStateManager {
 
 	public void saveMapState(GoogleMap map) {
 		SharedPreferences.Editor editor = mapStatePrefs.edit();
-		// editor.clear();
+		//editor.clear();
 		CameraPosition position = map.getCameraPosition();
 
 		editor.putFloat(LATITUDE, (float) position.target.latitude);
@@ -60,6 +60,7 @@ public class KartaStateManager {
 
 		CameraPosition position = new CameraPosition(target, zoom, tilt,
 				bearing);
+		
 		Log.d(MAPSTATE_TAG, "Map state retrieved");
 		return position;
 	}

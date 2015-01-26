@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    
-    <!-- The Map Fragment. It also configures the initial state of the map. 
+
+    <!--
+    The Map Fragment. It also configures the initial state of the map. 
     android:background="?android:attr/selectableItemBackground"
     android:background="@drawable/shadow"
-     -->
+    -->
 
     <com.google.android.gms.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,32 +17,64 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        
         map:uiCompass="true"
+        map:uiMapToolbar="false"
         map:uiRotateGestures="true"
         map:uiScrollGestures="true"
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
-        map:uiZoomGestures="true"
-        map:uiMapToolbar="false" />
-    
+        map:uiZoomGestures="true" />
+
     <ImageButton
         android:id="@+id/imageButton_MapType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="30dp"
-        
-        android:background="@drawable/shadow"
-  		android:paddingBottom="4dp"
-  		android:paddingLeft="2dp"
-  		android:paddingRight="3dp"
-  		android:paddingTop="1dp"
-        
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="28dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/shadow"
         android:contentDescription="Satellite/Terrain View"
-         />
+        android:paddingBottom="4dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="3dp"
+        android:paddingTop="1dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_above="@+id/image2"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="15dp"
+        
+        android:background="@drawable/border_image"
+        android:cropToPadding="true"
+        android:paddingBottom="1.2dp"
+        android:paddingLeft="0.7dp"
+        android:paddingRight="0.7dp"
+        android:paddingTop="0.4dp" >
+
+        <com.meg7.widget.CustomShapeImageView
+            android:id="@+id/image1"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_larm_d7"
+            app:shape="circle" />
+    </LinearLayout>
+
+    <com.meg7.widget.CustomShapeImageView
+        android:id="@+id/image2"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_larm_d7"
+        app:shape="circle" />
 
 </RelativeLayout>
