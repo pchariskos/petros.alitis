@@ -9,6 +9,10 @@
     The Map Fragment. It also configures the initial state of the map. 
     android:background="?android:attr/selectableItemBackground"
     android:background="@drawable/shadow"
+    android:background="#FCE4EC"
+    
+    The LinearLayout is used to wrap the com.meg7.widget.CustomShapeImageView
+    image buttons in order to add intuitive border to them.
     -->
 
     <com.google.android.gms.maps.MapView
@@ -41,40 +45,55 @@
         android:paddingTop="1dp" />
 
     <LinearLayout
+        android:id="@+id/circularButtons_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        
-        android:layout_above="@+id/image2"
-        android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="15dp"
-        
-        android:background="@drawable/border_image"
-        android:cropToPadding="true"
-        android:paddingBottom="1.2dp"
-        android:paddingLeft="0.7dp"
-        android:paddingRight="0.7dp"
-        android:paddingTop="0.4dp" >
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:alpha="0.9"
+        android:orientation="vertical" >
 
-        <com.meg7.widget.CustomShapeImageView
-            android:id="@+id/image1"
-            android:layout_width="58dp"
-            android:layout_height="58dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_larm_d7"
-            app:shape="circle" />
+        <LinearLayout
+            android:id="@+id/alarmedVehicle_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btn_map_button_state"
+            android:cropToPadding="true"
+            android:paddingBottom="1.2dp"
+            android:paddingLeft="0.7dp"
+            android:paddingRight="0.7dp"
+            android:paddingTop="0.2dp" >
+
+            <com.meg7.widget.CustomShapeImageView
+                android:id="@+id/imageButton_alarmedVehicle"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_alarmed_vehicle_default"
+                app:shape="circle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/allVehicles_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_map_button_state"
+            android:cropToPadding="true"
+            android:paddingBottom="1.3dp"
+            android:paddingLeft="0.6dp"
+            android:paddingRight="0.6dp"
+            android:paddingTop="0.1dp" >
+
+            <com.meg7.widget.CustomShapeImageView
+                android:id="@+id/imageButton_allVehicles"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_all_vehicles_default"
+                app:shape="circle" />
+        </LinearLayout>
     </LinearLayout>
-
-    <com.meg7.widget.CustomShapeImageView
-        android:id="@+id/image2"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
-        android:layout_marginRight="15dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_larm_d7"
-        app:shape="circle" />
 
 </RelativeLayout>
